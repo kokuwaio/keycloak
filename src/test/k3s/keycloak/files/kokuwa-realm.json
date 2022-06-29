@@ -1,0 +1,64 @@
+{
+	"id": "kokuwa",
+	"enabled": true,
+	"realm": "kokuwa",
+	"attributes": {
+		"frontendUrl": "http://auth.kokuwa.127.0.0.1.nip.io:8080"
+	},
+	"users": [
+		{
+			"id": "kokuwa-admin",
+			"enabled": true,
+			"username": "admin",
+			"email": "admin@example.org",
+			"credentials": [ { "type": "password", "value": "password" } ],
+			"clientRoles": { "realm-management": [ "realm-admin" ] }
+		},{
+			"id": "kokuwa-horst",
+			"enabled": true,
+			"username": "horst",
+			"email": "horst@example.org",
+			"credentials": [ { "type": "password", "value": "password" } ]
+		}
+	],
+	"clients": [
+		{
+			"enabled": true,
+			"clientId": "test-client",
+			"standardFlowEnabled": true,
+			"implicitFlowEnabled": true,
+			"directAccessGrantsEnabled": true,
+			"serviceAccountsEnabled": false,
+			"publicClient": true,
+			"protocol": "openid-connect",
+			"protocolMappers": [],
+			"defaultClientScopes": [],
+			"optionalClientScopes": []
+		},{
+			"enabled": true,
+			"clientId": "grafana",
+			"publicClient": false,
+			"secret": "changeMe",
+			"standardFlowEnabled": true,
+			"implicitFlowEnabled": false,
+			"directAccessGrantsEnabled": false,
+			"serviceAccountsEnabled": false,
+			"protocol": "openid-connect",
+			"protocolMappers": [],
+			"baseUrl": "http://grafana.127.0.0.1.nip.io:8080",
+			"redirectUris": [ "http://grafana.127.0.0.1.nip.io:8080/*" ],
+			"webOrigins": [ "http://grafana.127.0.0.1.nip.io:8080/*" ],
+			"defaultClientScopes": [ "email" ],
+			"optionalClientScopes": []
+		}
+	],
+	"eventsEnabled": true,
+	"eventsListeners": [ "metrics-listener", "jboss-logging" ],
+	"adminEventsEnabled": true,
+	"adminEventsDetailsEnabled": true,
+	"smtpServer": {
+		"host": "mailhog",
+		"from": "noreply@kokuwa.127.0.0.1.nip.io",
+		"fromDisplayName": "GrayC GmbH"
+	}
+}

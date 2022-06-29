@@ -1,0 +1,12 @@
+{
+	"clusterName": "k3s",
+	"itemsPerPage": 50,
+	"labelsLimit": 3,
+	"logsAutoRefreshTimeInterval": 1,
+	"resourceAutoRefreshTimeInterval": 5,
+	"disableAccessDeniedNotifications": false,
+	"defaultNamespace": "default",
+	"namespaceFallbackList": [
+		"default"
+	]
+}

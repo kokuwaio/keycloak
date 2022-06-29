@@ -1,0 +1,68 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: keycloak-realms
+spec:
+  ttlSecondsAfterFinished: 0
+  template:
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+        - name: postgresql
+          image: ${image.postgresql}
+          imagePullPolicy: Never
+          command: [sh, -c, until psql; do sleep 2; done]
+          env:
+            - name: PGHOST
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-database
+                  key: KC_DB_URL_HOST
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-database
+                  key: KC_DB_USERNAME
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-database
+                  key: KC_DB_PASSWORD
+          securityContext:
+            runAsUser: 10001
+            runAsGroup: 10001
+            readOnlyRootFilesystem: true
+      containers:
+        - name: realms
+          image: ${dockerfile.repository}:${dockerfile.tag}
+          imagePullPolicy: Never
+          args:
+            - import
+            - --dir=/realms
+          envFrom:
+            - secretRef:
+                name: keycloak-database
+            - secretRef:
+                name: keycloak-admin
+          securityContext:
+            runAsUser: 10001
+            runAsGroup: 10001
+            readOnlyRootFilesystem: true
+            privileged: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: realms
+              mountPath: /realms
+              readOnly: true
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 2
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: realms
+          configMap:
+            name: keycloak-realms

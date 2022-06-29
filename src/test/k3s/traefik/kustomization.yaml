@@ -1,0 +1,8 @@
+commonLabels:
+  app.kubernetes.io/name: traefik
+
+resources:
+  - rbac.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml

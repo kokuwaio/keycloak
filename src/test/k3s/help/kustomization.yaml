@@ -1,0 +1,12 @@
+commonLabels:
+  app.kubernetes.io/name: help
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+
+configMapGenerator:
+  - name: help
+    files:
+      - files/index.html

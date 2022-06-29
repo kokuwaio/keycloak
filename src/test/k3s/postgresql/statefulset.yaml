@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgresql
+spec:
+  replicas: 1
+  serviceName: postgresql
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      containers:
+        - name: postgresql
+          image: ${image.postgresql}
+          imagePullPolicy: Never
+          envFrom:
+            - secretRef:
+                name: postgresql-secret
+          ports:
+            - name: postgresql
+              containerPort: 5432
+          startupProbe:
+            exec:
+              command: [/bin/sh, -c, exec pg_isready]
+            initialDelaySeconds: 10
+            periodSeconds: 1
+            successThreshold: 1
+            failureThreshold: 50
+          readinessProbe:
+            exec:
+              command: [/bin/sh, -c, exec pg_isready]
+          livenessProbe:
+            exec:
+              command: [/bin/sh, -c, exec pg_isready]
+          volumeMounts:
+            - name: config
+              mountPath: /docker-entrypoint-initdb.d/init.sh
+              subPath: init.sh
+              readOnly: true
+            - name: data
+              mountPath: /var/lib/postgresql
+            - name: run
+              mountPath: /var/run/postgresql
+            - name: tmp
+              mountPath: /tmp
+          securityContext:
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+            privileged: false
+            allowPrivilegeEscalation: false
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 10
+      securityContext:
+        runAsUser: 999
+        runAsGroup: 999
+        fsGroup: 999
+      volumes:
+        - name: config
+          configMap:
+            name: postgresql-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: postgresql
+        - name: run
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}

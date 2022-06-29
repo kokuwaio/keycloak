@@ -1,0 +1,47 @@
+<body>
+	<h1>URLs</h1>
+	<ul>
+		<li>
+			Keycloak:
+			<a href="http://keycloak.127.0.0.1.nip.io:8080/admin">Admin</a>
+			<a href="http://auth.kokuwa.127.0.0.1.nip.io:8080/realms/kokuwa/account">Account kokuwa</a>
+			<a href="http://auth.test.127.0.0.1.nip.io:8080/realms/test/account">Account test</a>
+		</li>
+		<li>
+			Monitoring & Logging:
+			<a href="http://grafana.127.0.0.1.nip.io:8080">Grafana</a>
+			<a href="http://prometheus.127.0.0.1.nip.io:8080">Prometheus</a>
+			<a href="http://keycloak.127.0.0.1.nip.io:8080/realms/master/metrics">Metrics from Extension</a>
+			<a href="http://keycloak.127.0.0.1.nip.io:8080/metrics">Metrics from Quarkus</a>
+		</li>
+		<li>
+			Infrastructure:
+			<a href="http://dashboard.127.0.0.1.nip.io:8080">Dashboard</a>
+			<a href="http://mail.127.0.0.1.nip.io:8080">MailHog</a>
+			<a href="http://traefik.127.0.0.1.nip.io:8080">Traefik</a>
+		</li>
+	</ul>
+	<h1>Users</h1>
+	<ul>
+		<li>
+			<b>admin</b>
+			/
+			<b>password</b>
+			(all realms)
+		</li>
+		<li>
+			<b>horst</b>
+			/
+			<b>password</b>
+			(kokuwa &amp; test)
+		</li>
+	</ul>
+	<h1>Token</h1>
+	<pre>curl http://auth.kokuwa.127.0.0.1.nip.io:8080/realms/kokuwa/protocol/openid-connect/token \
+		--silent \
+		--data client_id=test-client \
+		--data username=horst \
+		--data password=password \
+		--data grant_type=password \
+		| jq -r .access_token | cut -f2 -d. | base64 -d | jq -r</pre>
+</body>

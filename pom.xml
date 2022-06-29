@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>io.kokuwa.keycloak</groupId>
+	<artifactId>keycloak</artifactId>
+	<version>BUILD-SNAPSHOT</version>
+
+	<name>Keycloak</name>
+	<description>Keycloak packaged for Kubernetes</description>
+	<url>https://github.com/kokuwaio/k3s-maven-plugin</url>
+	<inceptionYear>2022</inceptionYear>
+	<organization>
+		<name>Kokuwa.io</name>
+		<url>http://kokuwa.io</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>Apache License 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>stephanschnabel</id>
+			<name>Stephan Schnabel</name>
+			<url>https://github.com/sschnabe</url>
+			<email>stephan@grayc.de</email>
+			<organization>GrayC GmbH</organization>
+			<organizationUrl>https://grayc.de</organizationUrl>
+		</developer>
+	</developers>
+
+	<properties>
+
+		<!-- ===================================================================== -->
+		<!-- =============================== Build =============================== -->
+		<!-- ===================================================================== -->
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.propertiesEncoding>ISO-8859-1</project.build.propertiesEncoding>
+
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+		<maven.compiler.showWarnings>true</maven.compiler.showWarnings>
+		<maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
+
+		<image.repository>kokuwaio/keycloak</image.repository>
+		<image.tag>latest</image.tag>
+
+		<dockerfile.googleContainerRegistryEnabled>false</dockerfile.googleContainerRegistryEnabled>
+		<dockerfile.writeTestMetadata>false</dockerfile.writeTestMetadata>
+		<dockerfile.skipDockerInfo>true</dockerfile.skipDockerInfo>
+		<dockerfile.retryCount>0</dockerfile.retryCount>
+		<dockerfile.contextDirectory>${project.build.directory}/docker</dockerfile.contextDirectory>
+		<dockerfile.repository>${image.repository}</dockerfile.repository>
+		<dockerfile.tag>${image.tag}</dockerfile.tag>
+
+		<checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
+		<checkstyle.suppressions.location>checkstyle-suppression.xml</checkstyle.suppressions.location>
+		<checkstyle.includeTestSourceDirectory>true</checkstyle.includeTestSourceDirectory>
+
+		<!-- ===================================================================== -->
+		<!-- ============================== Libaries ============================= -->
+		<!-- ===================================================================== -->
+
+		<!-- plugins -->
+
+		<version.org.apache.maven.plugins.checkstyle>3.1.2</version.org.apache.maven.plugins.checkstyle>
+		<version.org.apache.maven.plugins.clean>3.2.0</version.org.apache.maven.plugins.clean>
+		<version.org.apache.maven.plugins.compiler>3.10.1</version.org.apache.maven.plugins.compiler>
+		<version.org.apache.maven.plugins.dependency_>3.3.0</version.org.apache.maven.plugins.dependency_>
+		<version.org.apache.maven.plugins.deploy>3.0.0-M2</version.org.apache.maven.plugins.deploy>
+		<version.org.apache.maven.plugins.install>3.0.0-M1</version.org.apache.maven.plugins.install>
+		<version.org.apache.maven.plugins.jar>3.2.2</version.org.apache.maven.plugins.jar>
+		<version.org.apache.maven.plugins.resources>3.2.0</version.org.apache.maven.plugins.resources>
+		<version.org.apache.maven.plugins.surefire>3.0.0-M7</version.org.apache.maven.plugins.surefire>
+		<version.org.codehaus.mojo.tidy>1.1.0</version.org.codehaus.mojo.tidy>
+		<version.com.puppycrawl.tools.checkstyle>10.3</version.com.puppycrawl.tools.checkstyle>
+		<version.com.spotify.dockerfile>1.4.13</version.com.spotify.dockerfile>
+		<version.io.kokuwa.checkstyle>0.5.6</version.io.kokuwa.checkstyle>
+		<version.io.kokuwa.maven.k3s>0.5.0</version.io.kokuwa.maven.k3s>
+		<version.io.github.git-commit-id>5.0.0</version.io.github.git-commit-id>
+
+		<!-- dependencies -->
+
+		<version.io.kubernetes.client>16.0.0</version.io.kubernetes.client>
+		<version.org.junit.jupiter>5.9.0-M1</version.org.junit.jupiter>
+		<version.org.keycloak>18.0.2</version.org.keycloak>
+		<version.org.slf4j>1.7.36</version.org.slf4j>
+
+		<!-- images -->
+
+		<k3s.imageTag>v1.24.2-k3s1</k3s.imageTag>
+		<image.dashboard>kubernetesui/dashboard:v2.6.0</image.dashboard>
+		<image.grafana>grafana/grafana:9.0.2</image.grafana>
+		<image.help>lipanski/docker-static-website:1.0.0</image.help>
+		<image.mailhog>druidfi/mailhog:1.0.1</image.mailhog>
+		<image.postgresql>postgres:14.4</image.postgresql>
+		<image.prometheus>quay.io/prometheus/prometheus:v2.36.2</image.prometheus>
+		<image.traefik>traefik:v2.8</image.traefik>
+
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- keycloak -->
+			<dependency>
+				<groupId>org.keycloak</groupId>
+				<artifactId>keycloak-admin-client</artifactId>
+				<version>${version.org.keycloak}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.keycloak</groupId>
+				<artifactId>keycloak-authz-client</artifactId>
+				<version>${version.org.keycloak}</version>
+			</dependency>
+
+			<!-- test -->
+			<dependency>
+				<groupId>io.kubernetes</groupId>
+				<artifactId>client-java</artifactId>
+				<version>${version.io.kubernetes.client}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>${version.org.junit.jupiter}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-simple</artifactId>
+				<version>${version.org.slf4j}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+	<dependencies>
+
+		<!-- keycloak -->
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-admin-client</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-authz-client</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- test -->
+		<dependency>
+			<groupId>io.kubernetes</groupId>
+			<artifactId>client-java</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>${version.org.apache.maven.plugins.checkstyle}</version>
+					<dependencies>
+						<dependency>
+							<groupId>com.puppycrawl.tools</groupId>
+							<artifactId>checkstyle</artifactId>
+							<version>${version.com.puppycrawl.tools.checkstyle}</version>
+						</dependency>
+						<dependency>
+							<groupId>io.kokuwa</groupId>
+							<artifactId>maven-parent</artifactId>
+							<version>${version.io.kokuwa.checkstyle}</version>
+							<type>zip</type>
+							<classifier>checkstyle</classifier>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>${version.org.apache.maven.plugins.clean}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${version.org.apache.maven.plugins.compiler}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>${version.org.apache.maven.plugins.dependency_}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>${version.org.apache.maven.plugins.deploy}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>${version.org.apache.maven.plugins.surefire}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>${version.org.apache.maven.plugins.install}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${version.org.apache.maven.plugins.jar}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${version.org.apache.maven.plugins.resources}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${version.org.apache.maven.plugins.surefire}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>tidy-maven-plugin</artifactId>
+					<version>${version.org.codehaus.mojo.tidy}</version>
+				</plugin>
+				<plugin>
+					<groupId>com.spotify</groupId>
+					<artifactId>dockerfile-maven-plugin</artifactId>
+					<version>${version.com.spotify.dockerfile}</version>
+				</plugin>
+				<plugin>
+					<groupId>io.kokuwa.maven</groupId>
+					<artifactId>k3s-maven-plugin</artifactId>
+					<version>${version.io.kokuwa.maven.k3s}</version>
+				</plugin>
+				<plugin>
+					<groupId>io.github.git-commit-id</groupId>
+					<artifactId>git-commit-id-maven-plugin</artifactId>
+					<version>${version.io.github.git-commit-id}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+
+			<!-- get artifacts for docker image -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.keycloak</groupId>
+									<artifactId>keycloak-quarkus-dist</artifactId>
+									<version>${version.org.keycloak}</version>
+									<type>tar.gz</type>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${dockerfile.contextDirectory}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- copy docker/k3s -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>docker</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>${project.basedir}/src/main/docker</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+							<outputDirectory>${dockerfile.contextDirectory}</outputDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>k3s</id>
+						<phase>generate-test-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>${project.basedir}/src/test/k3s</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+							<outputDirectory>${project.build.directory}/k3s</outputDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>default-resources</id>
+						<phase />
+					</execution>
+					<execution>
+						<id>default-testResources</id>
+						<phase />
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- create container -->
+			<plugin>
+				<groupId>io.github.git-commit-id</groupId>
+				<artifactId>git-commit-id-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+						<configuration>
+							<generateGitPropertiesFile>false</generateGitPropertiesFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- handle k3s lifecycle -->
+			<plugin>
+				<groupId>io.kokuwa.maven</groupId>
+				<artifactId>k3s-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>create</goal>
+							<goal>start</goal>
+							<goal>image</goal>
+							<goal>kubectl</goal>
+							<goal>rm</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<command>kubectl apply -k .</command>
+					<manifests>${project.build.directory}/k3s</manifests>
+					<portBindings>
+						<portBinding>8080:8080</portBinding>
+					</portBindings>
+					<ctrImages>
+						<ctrImage>${image.dashboard}</ctrImage>
+						<ctrImage>${image.grafana}</ctrImage>
+						<ctrImage>${image.help}</ctrImage>
+						<ctrImage>${image.mailhog}</ctrImage>
+						<ctrImage>${image.postgresql}</ctrImage>
+						<ctrImage>${image.prometheus}</ctrImage>
+						<ctrImage>${image.traefik}</ctrImage>
+					</ctrImages>
+					<dockerImages>
+						<dockerImage>${image.repository}:${image.tag}</dockerImage>
+					</dockerImages>
+				</configuration>
+			</plugin>
+
+			<!-- run integration tests -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- fail if any pom is dirty -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tidy-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- fail if checkstyle reports problems -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- disable jar/surefire/install -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default-compile</id>
+						<phase />
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default-jar</id>
+						<phase />
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default-test</id>
+						<phase />
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default-install</id>
+						<phase />
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<phase />
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

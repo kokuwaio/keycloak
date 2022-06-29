@@ -1,0 +1,29 @@
+name: Build
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: /tmp/k3s-maven-plugin/rancher/
+          key: rancher
+      - uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 11
+          cache: maven
+      - uses: docker/login-action@v2.0.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GIT_ACTION_TOKEN }}
+      - run: mvn -B dependency:go-offline
+      - run: mvn -B deploy

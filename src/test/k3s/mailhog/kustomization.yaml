@@ -1,0 +1,7 @@
+commonLabels:
+  app.kubernetes.io/name: mailhog
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml

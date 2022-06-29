@@ -1,0 +1,17 @@
+commonLabels:
+  app.kubernetes.io/name: postgresql
+
+resources:
+  - pvc.yaml
+  - statefulset.yaml
+  - service.yaml
+
+configMapGenerator:
+  - name: postgresql-config
+    files: [files/init.sh]
+
+secretGenerator:
+  - name: postgresql-secret
+    literals:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password

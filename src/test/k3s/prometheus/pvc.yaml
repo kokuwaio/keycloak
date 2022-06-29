@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: prometheus
+spec:
+  hostPath:
+    path: /var/lib/rancher/k3s/storage/prometheus
+    type: DirectoryOrCreate
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prometheus
+spec:
+  volumeName: prometheus
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

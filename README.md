@@ -18,6 +18,23 @@ Keycloak container image for Kokuwa.
   - ispn cache
 - [integration test](/src/test/k3s) with [k3s](https://k3s.io/)
 
+## Why
+
+in June 2022 no preconfigured Keycloak container image without legycy Keycloak was available.
+
+Use this image if you intend to:
+
+1. use Keycloak in Quarkus version, not Wildfly version
+1. use PostgeSQL as backend
+1. deploy to Kubernetes with clustered cache
+
+Alternatives:
+
+- [quay.io/keycloak/keycloak](https://quay.io/repository/keycloak/keycloak)
+- [docker.io/bitnami/keycloak](https://hub.docker.com/r/bitnami/keycloak)
+
+Both are not preconfigured for PostgreSQL and have a larger base image.
+
 ## Registries & Tags
 
 Not yet pushed to public repositories.

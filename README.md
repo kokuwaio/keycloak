@@ -20,7 +20,17 @@ Keycloak container image for Kokuwa.
 
 ## Registries & Tags
 
-Not yet pushed to public repositories.
+Registries:
+
+- [ghcr.io/kokuwaio/keycloak](https://github.com/kokuwaio/keycloak/pkgs/container/keycloak)
+- [docker.io/kokuwaio/keycloak](https://hub.docker.com/r/kokuwaio/keycloak)
+
+Tags:
+
+- `latest`
+- `<yyyyMMdd-HHmmss>` timestamped version (e.g. for FluxCD)
+- `18` latest for Keycloak 18
+- `18-<yyyyMMdd-HHmmss>` timestamped for Keycloak 18 (e.g. for FluxCD)
 
 ## Develop and testing
 

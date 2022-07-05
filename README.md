@@ -52,6 +52,8 @@ Tags:
 
 ## Develop and testing
 
+### k3s
+
 Start k3s: `mvn pre-integration-test`
 
 Open <http://help.127.0.0.1.nip.io:8080> or use `kubectl`:
@@ -60,3 +62,9 @@ Open <http://help.127.0.0.1.nip.io:8080> or use `kubectl`:
 export KUBECONFIG=/tmp/k3s-maven-plugin/mount/kubeconfig.yaml
 kubectl get all --all-namespaces
 ```
+
+### docker-compose
+
+Start compose: `docker-compose -f src/test/compose/docker-compose.yaml up`
+
+Open <http://keycloak.127.0.0.1.nip.io:8080>.

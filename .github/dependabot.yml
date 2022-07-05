@@ -6,9 +6,9 @@ updates:
       interval: daily
     ignore:
       # ignore major versions for keycloak
-      - dependency-name: org.keycloak.core:*
+      - dependency-name: org.keycloak:*
         update-types: [version-update:semver-major]
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: monthly
+      interval: daily

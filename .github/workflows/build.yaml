@@ -5,6 +5,9 @@ on:
   push:
     branches: [main]
 
+env:
+  version: 18
+
 jobs:
 
   image:
@@ -23,8 +26,8 @@ jobs:
       - run: echo "timestamp=`date +"%Y%m%d-%H%M%S"`" >> $GITHUB_ENV
       - run: echo ${{ env.timestamp }} > image.txt
       - run: mvn -B dependency:go-offline
-      - run: mvn -B install -Ddockerfile.tag=18-${{ env.timestamp }}
-      - run: docker save kokuwaio/keycloak:18-${{ env.timestamp }} | gzip > image.tar.gz
+      - run: mvn -B install -Ddockerfile.tag=${{ env.version }}-${{ env.timestamp }}
+      - run: docker save kokuwaio/keycloak:${{ env.version }}-${{ env.timestamp }} | gzip > image.tar.gz
       - uses: actions/upload-artifact@v3
         with:
           if-no-files-found: error
@@ -44,10 +47,10 @@ jobs:
           password: ${{ secrets.GIT_ACTION_TOKEN }}
       - run: echo "timestamp=`cat artifact/image.txt`" >> $GITHUB_ENV
       - run: docker load < artifact/image.tar.gz
-      - run: docker tag kokuwaio/keycloak:18-${{ env.timestamp }} ghcr.io/kokuwaio/keycloak:latest
-      - run: docker tag kokuwaio/keycloak:18-${{ env.timestamp }} ghcr.io/kokuwaio/keycloak:${{ env.timestamp }}
-      - run: docker tag kokuwaio/keycloak:18-${{ env.timestamp }} ghcr.io/kokuwaio/keycloak:18
-      - run: docker tag kokuwaio/keycloak:18-${{ env.timestamp }} ghcr.io/kokuwaio/keycloak:18-${{ env.timestamp }}
+      - run: docker tag kokuwaio/keycloak:${{ env.version }}-${{ env.timestamp }} ghcr.io/kokuwaio/keycloak:latest
+      - run: docker tag kokuwaio/keycloak:${{ env.version }}-${{ env.timestamp }} ghcr.io/kokuwaio/keycloak:${{ env.timestamp }}
+      - run: docker tag kokuwaio/keycloak:${{ env.version }}-${{ env.timestamp }} ghcr.io/kokuwaio/keycloak:${{ env.version }}
+      - run: docker tag kokuwaio/keycloak:${{ env.version }}-${{ env.timestamp }} ghcr.io/kokuwaio/keycloak:${{ env.version }}-${{ env.timestamp }}
       - run: docker push ghcr.io/kokuwaio/keycloak --all-tags
 
   docker-io:
@@ -62,8 +65,8 @@ jobs:
           password: ${{ secrets.DOCKERIO_TOKEN }}
       - run: echo "timestamp=`cat artifact/image.txt`" >> $GITHUB_ENV
       - run: docker load < artifact/image.tar.gz
-      - run: docker tag kokuwaio/keycloak:18-${{ env.timestamp }} docker.io/kokuwaio/keycloak:latest
-      - run: docker tag kokuwaio/keycloak:18-${{ env.timestamp }} docker.io/kokuwaio/keycloak:${{ env.timestamp }}
-      - run: docker tag kokuwaio/keycloak:18-${{ env.timestamp }} docker.io/kokuwaio/keycloak:18
-      - run: docker tag kokuwaio/keycloak:18-${{ env.timestamp }} docker.io/kokuwaio/keycloak:18-${{ env.timestamp }}
+      - run: docker tag kokuwaio/keycloak:${{ env.version }}-${{ env.timestamp }} docker.io/kokuwaio/keycloak:latest
+      - run: docker tag kokuwaio/keycloak:${{ env.version }}-${{ env.timestamp }} docker.io/kokuwaio/keycloak:${{ env.timestamp }}
+      - run: docker tag kokuwaio/keycloak:${{ env.version }}-${{ env.timestamp }} docker.io/kokuwaio/keycloak:${{ env.version }}
+      - run: docker tag kokuwaio/keycloak:${{ env.version }}-${{ env.timestamp }} docker.io/kokuwaio/keycloak:${{ env.version }}-${{ env.timestamp }}
       - run: docker push docker.io/kokuwaio/keycloak --all-tags

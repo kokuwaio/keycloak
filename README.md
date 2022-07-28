@@ -47,8 +47,8 @@ Tags:
 
 - `latest`
 - `<yyyyMMdd-HHmmss>` timestamped version (e.g. for FluxCD)
-- `18` latest for Keycloak 18
-- `18-<yyyyMMdd-HHmmss>` timestamped for Keycloak 18 (e.g. for FluxCD)
+- `<majorVersion>` latest major version for Keycloak
+- `<majorVersion>-<yyyyMMdd-HHmmss>` timestamped for major version (e.g. for FluxCD)
 
 ## Develop and testing
 

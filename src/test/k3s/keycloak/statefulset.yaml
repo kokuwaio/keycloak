@@ -38,6 +38,14 @@ spec:
             periodSeconds: 1
             successThreshold: 1
             failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: http
           securityContext:
             runAsUser: 10001
             runAsGroup: 10001

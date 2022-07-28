@@ -27,6 +27,8 @@ spec:
                 name: keycloak-config
             - secretRef:
                 name: keycloak-database
+            - secretRef:
+                name: keycloak-admin
           ports:
             - name: http
               containerPort: 8080

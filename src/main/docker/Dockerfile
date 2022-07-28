@@ -57,4 +57,4 @@ ENV KC_LOG_CONSOLE_COLOR=false
 ENV KC_LOG_CONSOLE_OUTPUT=JSON
 
 ENTRYPOINT ["java","-XX:+ExitOnOutOfMemoryError","-Djgroups.dns.query=${KC_CACHE_DNS}","-jar","/app/lib/quarkus-run.jar"]
-CMD ["start"]
+CMD ["start", "--optimized"]

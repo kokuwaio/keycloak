@@ -34,7 +34,7 @@ spec:
             readOnlyRootFilesystem: true
       containers:
         - name: realms
-          image: ${dockerfile.repository}:${dockerfile.tag}
+          image: ${image.name}:${image.tag}
           imagePullPolicy: Never
           args:
             - import

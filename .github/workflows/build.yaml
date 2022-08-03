@@ -25,7 +25,7 @@ jobs:
       - run: echo "major=`mvn help:evaluate -Dexpression=version.org.keycloak -DforceStdout -q | cut -d. -f1`" >> image.txt
       - run: cat image.txt >> $GITHUB_ENV
       - run: mvn -B dependency:go-offline
-      - run: mvn -B install -Ddockerfile.tag=${{ env.version }}-${{ env.timestamp }}
+      - run: mvn -B install -Dimage.tag=${{ env.version }}-${{ env.timestamp }}
       - run: docker save kokuwaio/keycloak:${{ env.version }}-${{ env.timestamp }} | gzip > image.tar.gz
       - uses: actions/upload-artifact@v3
         with:

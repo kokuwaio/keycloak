@@ -37,7 +37,7 @@ LABEL org.opencontainers.image.licenses    Apache-2.0
 LABEL org.opencontainers.image.version     ${version.org.keycloak}
 LABEL org.opencontainers.image.created     ${git.build.time}
 LABEL org.opencontainers.image.revision    ${git.commit.id}
-LABEL org.opencontainers.image.ref.name    ${dockerfile.tag}
+LABEL org.opencontainers.image.ref.name    ${image.tag}
 LABEL org.opencontainers.image.base.name   gcr.io/distroless/java11
 
 WORKDIR /app

@@ -47,13 +47,9 @@
 		<maven.compiler.showWarnings>true</maven.compiler.showWarnings>
 		<maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
 
-		<dockerfile.googleContainerRegistryEnabled>false</dockerfile.googleContainerRegistryEnabled>
-		<dockerfile.writeTestMetadata>false</dockerfile.writeTestMetadata>
-		<dockerfile.skipDockerInfo>true</dockerfile.skipDockerInfo>
-		<dockerfile.retryCount>0</dockerfile.retryCount>
-		<dockerfile.contextDirectory>${project.build.directory}/docker</dockerfile.contextDirectory>
-		<dockerfile.repository>kokuwaio/keycloak</dockerfile.repository>
-		<dockerfile.tag>latest</dockerfile.tag>
+		<image.build>${project.build.directory}/docker-build</image.build>
+		<image.name>kokuwaio/keycloak</image.name>
+		<image.tag>latest</image.tag>
 
 		<checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
 		<checkstyle.suppressions.location>checkstyle-suppression.xml</checkstyle.suppressions.location>
@@ -76,10 +72,10 @@
 		<version.org.apache.maven.plugins.surefire>3.0.0-M7</version.org.apache.maven.plugins.surefire>
 		<version.org.codehaus.mojo.tidy>1.1.0</version.org.codehaus.mojo.tidy>
 		<version.com.puppycrawl.tools.checkstyle>10.3.2</version.com.puppycrawl.tools.checkstyle>
-		<version.com.spotify.dockerfile>1.4.13</version.com.spotify.dockerfile>
+		<version.io.fabric8.docker>0.40.2</version.io.fabric8.docker>
+		<version.io.github.git-commit-id>5.0.0</version.io.github.git-commit-id>
 		<version.io.kokuwa.checkstyle>0.5.6</version.io.kokuwa.checkstyle>
 		<version.io.kokuwa.maven.k3s>0.5.0</version.io.kokuwa.maven.k3s>
-		<version.io.github.git-commit-id>5.0.0</version.io.github.git-commit-id>
 
 		<!-- dependencies -->
 
@@ -243,19 +239,19 @@
 					<version>${version.org.codehaus.mojo.tidy}</version>
 				</plugin>
 				<plugin>
-					<groupId>com.spotify</groupId>
-					<artifactId>dockerfile-maven-plugin</artifactId>
-					<version>${version.com.spotify.dockerfile}</version>
-				</plugin>
-				<plugin>
-					<groupId>io.kokuwa.maven</groupId>
-					<artifactId>k3s-maven-plugin</artifactId>
-					<version>${version.io.kokuwa.maven.k3s}</version>
+					<groupId>io.fabric8</groupId>
+					<artifactId>docker-maven-plugin</artifactId>
+					<version>${version.io.fabric8.docker}</version>
 				</plugin>
 				<plugin>
 					<groupId>io.github.git-commit-id</groupId>
 					<artifactId>git-commit-id-maven-plugin</artifactId>
 					<version>${version.io.github.git-commit-id}</version>
+				</plugin>
+				<plugin>
+					<groupId>io.kokuwa.maven</groupId>
+					<artifactId>k3s-maven-plugin</artifactId>
+					<version>${version.io.kokuwa.maven.k3s}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -279,7 +275,7 @@
 									<type>tar.gz</type>
 								</artifactItem>
 							</artifactItems>
-							<outputDirectory>${dockerfile.contextDirectory}</outputDirectory>
+							<outputDirectory>${image.build}</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -303,7 +299,7 @@
 									<filtering>true</filtering>
 								</resource>
 							</resources>
-							<outputDirectory>${dockerfile.contextDirectory}</outputDirectory>
+							<outputDirectory>${image.build}</outputDirectory>
 						</configuration>
 					</execution>
 					<execution>
@@ -349,15 +345,30 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>dockerfile-maven-plugin</artifactId>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
 				<executions>
 					<execution>
+						<phase>package</phase>
 						<goals>
 							<goal>build</goal>
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<images>
+						<image>
+							<name>${image.name}</name>
+							<build>
+								<cleanup>true</cleanup>
+								<dockerFileDir>${image.build}</dockerFileDir>
+								<tags>
+									<tag>${image.tag}</tag>
+								</tags>
+							</build>
+						</image>
+					</images>
+				</configuration>
 			</plugin>
 
 			<!-- handle k3s lifecycle -->
@@ -391,7 +402,7 @@
 						<ctrImage>${image.traefik}</ctrImage>
 					</ctrImages>
 					<dockerImages>
-						<dockerImage>${dockerfile.repository}:${dockerfile.tag}</dockerImage>
+						<dockerImage>${image.name}:${image.tag}</dockerImage>
 					</dockerImages>
 				</configuration>
 			</plugin>

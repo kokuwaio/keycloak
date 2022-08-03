@@ -47,9 +47,8 @@
 		<maven.compiler.showWarnings>true</maven.compiler.showWarnings>
 		<maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
 
-		<image.build>${project.build.directory}/docker-build</image.build>
 		<image.name>kokuwaio/keycloak</image.name>
-		<image.tag>latest</image.tag>
+		<image.tag>snapshot</image.tag>
 
 		<checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
 		<checkstyle.suppressions.location>checkstyle-suppression.xml</checkstyle.suppressions.location>
@@ -70,9 +69,9 @@
 		<version.org.apache.maven.plugins.jar>3.2.2</version.org.apache.maven.plugins.jar>
 		<version.org.apache.maven.plugins.resources>3.3.0</version.org.apache.maven.plugins.resources>
 		<version.org.apache.maven.plugins.surefire>3.0.0-M7</version.org.apache.maven.plugins.surefire>
+		<version.org.codehaus.mojo.exec>3.0.0</version.org.codehaus.mojo.exec>
 		<version.org.codehaus.mojo.tidy>1.1.0</version.org.codehaus.mojo.tidy>
 		<version.com.puppycrawl.tools.checkstyle>10.3.2</version.com.puppycrawl.tools.checkstyle>
-		<version.io.fabric8.docker>0.40.2</version.io.fabric8.docker>
 		<version.io.github.git-commit-id>5.0.0</version.io.github.git-commit-id>
 		<version.io.kokuwa.checkstyle>0.5.6</version.io.kokuwa.checkstyle>
 		<version.io.kokuwa.maven.k3s>0.5.0</version.io.kokuwa.maven.k3s>
@@ -235,13 +234,13 @@
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>tidy-maven-plugin</artifactId>
-					<version>${version.org.codehaus.mojo.tidy}</version>
+					<artifactId>exec-maven-plugin</artifactId>
+					<version>${version.org.codehaus.mojo.exec}</version>
 				</plugin>
 				<plugin>
-					<groupId>io.fabric8</groupId>
-					<artifactId>docker-maven-plugin</artifactId>
-					<version>${version.io.fabric8.docker}</version>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>tidy-maven-plugin</artifactId>
+					<version>${version.org.codehaus.mojo.tidy}</version>
 				</plugin>
 				<plugin>
 					<groupId>io.github.git-commit-id</groupId>
@@ -275,7 +274,7 @@
 									<type>tar.gz</type>
 								</artifactItem>
 							</artifactItems>
-							<outputDirectory>${image.build}</outputDirectory>
+							<outputDirectory>${project.build.directory}/docker</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -299,7 +298,7 @@
 									<filtering>true</filtering>
 								</resource>
 							</resources>
-							<outputDirectory>${image.build}</outputDirectory>
+							<outputDirectory>${project.build.directory}/docker</outputDirectory>
 						</configuration>
 					</execution>
 					<execution>
@@ -345,30 +344,26 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
 					<execution>
 						<phase>package</phase>
 						<goals>
-							<goal>build</goal>
+							<goal>exec</goal>
 						</goals>
+						<configuration>
+							<executable>docker</executable>
+							<workingDirectory>${project.basedir}</workingDirectory>
+							<arguments>
+								<argument>build</argument>
+								<argument>--tag</argument>
+								<argument>${image.name}:${image.tag}</argument>
+								<argument>${project.build.directory}/docker</argument>
+							</arguments>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<images>
-						<image>
-							<name>${image.name}</name>
-							<build>
-								<cleanup>true</cleanup>
-								<dockerFileDir>${image.build}</dockerFileDir>
-								<tags>
-									<tag>${image.tag}</tag>
-								</tags>
-							</build>
-						</image>
-					</images>
-				</configuration>
 			</plugin>
 
 			<!-- handle k3s lifecycle -->

@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: docker
-    directory: /keycloak/src/main/docker
+    directory: src/main/docker
     schedule:
       interval: daily
   - package-ecosystem: github-actions

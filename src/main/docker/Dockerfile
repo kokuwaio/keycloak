@@ -2,7 +2,7 @@
 ### build
 ###
 
-FROM openjdk:11-slim AS build
+FROM openjdk:18-slim AS build
 
 ARG VERSION=${version.org.keycloak}
 ADD keycloak-quarkus-dist-$VERSION.tar.gz /tmp

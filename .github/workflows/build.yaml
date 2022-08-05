@@ -45,7 +45,7 @@ jobs:
             ${{ env.version }}-${{ env.timestamp }}
             ${{ env.major }}
             ${{ env.major }}-${{ env.timestamp }}
-      - uses: docker/build-push-action@v2
+      - uses: docker/build-push-action@v3
         with:
           context: target/docker
           push: true

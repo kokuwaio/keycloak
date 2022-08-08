@@ -2,7 +2,7 @@
 ### build
 ###
 
-FROM openjdk:11-slim AS build
+FROM openjdk:${maven.compiler.target}-slim AS build
 
 ARG VERSION=${version.org.keycloak}
 ADD keycloak-quarkus-dist-$VERSION.tar.gz /tmp
@@ -24,7 +24,7 @@ RUN java -Dkc.home.dir=/app -jar /app/lib/quarkus-run.jar build
 ### runtime
 ###
 
-FROM gcr.io/distroless/java11:nonroot
+FROM gcr.io/distroless/java${maven.compiler.target}:nonroot
 
 # https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title       ${project.name}
@@ -38,7 +38,7 @@ LABEL org.opencontainers.image.version     ${version.org.keycloak}
 LABEL org.opencontainers.image.created     ${git.build.time}
 LABEL org.opencontainers.image.revision    ${git.commit.id}
 LABEL org.opencontainers.image.ref.name    ${image.tag}
-LABEL org.opencontainers.image.base.name   gcr.io/distroless/java11
+LABEL org.opencontainers.image.base.name   gcr.io/distroless/java${maven.compiler.target}
 
 WORKDIR /app
 COPY --from=build /app /app

@@ -8,7 +8,7 @@ Keycloak container image for Kokuwa.
 
 ## Features
 
-- BaseImage is [gcr.io/distroless/java11:nonroot](https://gcr.io/distroless/java11:nonroot)
+- BaseImage is [eclipse-temurin:11-jre](https://hub.docker.com/_/eclipse-temurin)
 - preconfigured with PostgeSQL
 - preconfigured for Kubernetes:
   - health enabled

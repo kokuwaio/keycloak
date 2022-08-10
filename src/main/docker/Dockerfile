@@ -1,8 +1,8 @@
 ###
-### build
+### keycloak base
 ###
 
-FROM openjdk:${maven.compiler.target}-slim AS build
+FROM eclipse-temurin:${maven.compiler.target}-jre AS build
 
 ARG VERSION=${version.org.keycloak}
 ADD keycloak-quarkus-dist-$VERSION.tar.gz /tmp
@@ -21,10 +21,10 @@ ENV KC_METRICS_ENABLED=true
 RUN java -Dkc.home.dir=/app -jar /app/lib/quarkus-run.jar build
 
 ###
-### runtime
+### server
 ###
 
-FROM gcr.io/distroless/java${maven.compiler.target}:nonroot
+FROM eclipse-temurin:${maven.compiler.target}-jre
 
 # https://github.com/opencontainers/image-spec/blob/main/annotations.md
 LABEL org.opencontainers.image.title       ${project.name}
@@ -38,7 +38,7 @@ LABEL org.opencontainers.image.version     ${version.org.keycloak}
 LABEL org.opencontainers.image.created     ${git.build.time}
 LABEL org.opencontainers.image.revision    ${git.commit.id}
 LABEL org.opencontainers.image.ref.name    ${image.tag}
-LABEL org.opencontainers.image.base.name   gcr.io/distroless/java${maven.compiler.target}
+LABEL org.opencontainers.image.base.name   eclipse-temurin:${maven.compiler.target}-jre
 
 WORKDIR /app
 COPY --from=build /app /app

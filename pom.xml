@@ -71,7 +71,7 @@
 		<version.org.apache.maven.plugins.surefire>3.0.0-M7</version.org.apache.maven.plugins.surefire>
 		<version.org.codehaus.mojo.exec>3.1.0</version.org.codehaus.mojo.exec>
 		<version.org.codehaus.mojo.tidy>1.1.0</version.org.codehaus.mojo.tidy>
-		<version.com.puppycrawl.tools.checkstyle>10.3.3</version.com.puppycrawl.tools.checkstyle>
+		<version.com.puppycrawl.tools.checkstyle>10.3.4</version.com.puppycrawl.tools.checkstyle>
 		<version.io.github.git-commit-id>5.0.0</version.io.github.git-commit-id>
 		<version.io.kokuwa.checkstyle>0.5.6</version.io.kokuwa.checkstyle>
 		<version.io.kokuwa.maven.k3s>0.6.1</version.io.kokuwa.maven.k3s>

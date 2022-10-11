@@ -1,0 +1,11 @@
+commonLabels:
+  app.kubernetes.io/name: loki
+
+resources:
+  - pvc.yaml
+  - service.yaml
+  - statefulset.yaml
+
+configMapGenerator:
+  - name: loki-config
+    files: [files/config.yaml]

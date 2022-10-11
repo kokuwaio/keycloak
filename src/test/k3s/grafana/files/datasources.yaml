@@ -5,3 +5,7 @@ datasources:
     type: prometheus
     url: http://prometheus
     editable: false
+  - name: Loki
+    type: loki
+    url: http://loki
+    editable: false

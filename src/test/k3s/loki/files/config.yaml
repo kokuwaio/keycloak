@@ -1,0 +1,47 @@
+# https://grafana.com/docs/loki/latest/operations/authentication/
+
+auth_enabled: false
+
+# https://grafana.com/docs/loki/latest/configuration
+
+server:
+  http_listen_port: 8080
+  grpc_listen_port: 9095
+  log_level: info
+
+schema_config:
+  configs:
+    - from: 2020-05-15
+      store: boltdb
+      object_store: filesystem
+      schema: v11
+      index:
+        prefix: index_
+        period: 168h
+
+storage_config:
+  boltdb:
+    directory: /data/loki/index
+  filesystem:
+    directory: /data/loki/storage
+
+ingester:
+  lifecycler:
+    address: 127.0.0.1
+    ring:
+      kvstore:
+        store: inmemory
+      replication_factor: 1
+    final_sleep: 0s
+  chunk_idle_period: 5m
+  chunk_retain_period: 30s
+  wal:
+    enabled: true
+    dir: /data/loki/wal
+
+compactor:
+  working_directory: /data/loki/boltdb-shipper-compactor
+  shared_store: filesystem
+
+analytics:
+  reporting_enabled: false

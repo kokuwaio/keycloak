@@ -12,6 +12,8 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: prometheus
+      annotations:
+        fluentbit.io/parser: logfmt
     spec:
       containers:
         - name: prometheus

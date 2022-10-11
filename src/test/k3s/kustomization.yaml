@@ -1,8 +1,10 @@
 resources:
   - dashboard
+  - fluent-bit
   - grafana
   - help
   - keycloak
+  - loki
   - mailhog
   - postgresql
   - prometheus

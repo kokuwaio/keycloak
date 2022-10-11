@@ -48,7 +48,10 @@ configMapGenerator:
   - name: grafana-dashboards
     files:
       - files/dashboards.yaml
+      - files/dashboards/keycloak-logs.json
       - files/dashboards/keycloak-monitoring.json
+      - files/dashboards/logs.json
+      - files/dashboards/fluent-bit.json
 
 secretGenerator:
   - name: grafana-secrets

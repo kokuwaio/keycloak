@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluent-bit
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: fluent-bit
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: fluent-bit
+      annotations:
+        fluentbit.io/parser: fluent-bit
+        prometheus.io/scrape: "true"
+        prometheus.io/port: http
+        prometheus.io/path: /api/v1/metrics/prometheus
+    spec:
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
+        - operator: Exists
+          effect: NoExecute
+        - operator: Exists
+          effect: NoSchedule
+      containers:
+        - name: fluent-bit
+          image: ${image.fluent-bit}
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8080
+          startupProbe:
+            httpGet:
+              port: http
+              path: /api/v1/health
+            initialDelaySeconds: 1
+            periodSeconds: 1
+            successThreshold: 1
+            failureThreshold: 30
+          livenessProbe:
+            httpGet:
+              port: http
+              path: /api/v1/health
+          volumeMounts:
+            - name: log
+              mountPath: /var/log
+              readOnly: true
+            - name: db
+              mountPath: /var/fluent-bit
+            - name: config
+              mountPath: /fluent-bit/etc
+              readOnly: true
+          securityContext:
+            readOnlyRootFilesystem: true
+            privileged: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+      serviceAccountName: fluent-bit
+      terminationGracePeriodSeconds: 5
+      volumes:
+        - name: db
+          hostPath:
+            path: /var/fluent-bit
+            type: DirectoryOrCreate
+        - name: log
+          hostPath:
+            path: /var/log
+        - name: config
+          configMap:
+            name: fluent-bit-config

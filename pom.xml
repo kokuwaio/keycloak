@@ -88,7 +88,6 @@
 		<k3s.imageTag>v1.24.2-k3s1</k3s.imageTag>
 		<image.dashboard>kubernetesui/dashboard:v2.6.0</image.dashboard>
 		<image.grafana>grafana/grafana:9.0.2</image.grafana>
-		<image.help>lipanski/docker-static-website:1.0.0</image.help>
 		<image.mailhog>druidfi/mailhog:1.0.1</image.mailhog>
 		<image.postgresql>postgres:14.4</image.postgresql>
 		<image.prometheus>quay.io/prometheus/prometheus:v2.36.2</image.prometheus>
@@ -390,7 +389,6 @@
 					<ctrImages>
 						<ctrImage>${image.dashboard}</ctrImage>
 						<ctrImage>${image.grafana}</ctrImage>
-						<ctrImage>${image.help}</ctrImage>
 						<ctrImage>${image.mailhog}</ctrImage>
 						<ctrImage>${image.postgresql}</ctrImage>
 						<ctrImage>${image.prometheus}</ctrImage>

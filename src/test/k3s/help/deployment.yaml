@@ -13,31 +13,50 @@ spec:
     spec:
       containers:
         - name: help
-          image: ${image.help}
-          imagePullPolicy: Never
+          image: pierrezemb/gostatic:latest
+          imagePullPolicy: IfNotPresent
+          args:
+            - -enable-health
+            - -port=8080
+            - -path=/data
           ports:
             - name: http
-              containerPort: 3000
+              containerPort: 8080
           startupProbe:
             httpGet:
-              path: /
+              path: /health
               port: http
-            initialDelaySeconds: 1
+            initialDelaySeconds: 5
             periodSeconds: 1
             successThreshold: 1
             failureThreshold: 25
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 60
+            failureThreshold: 1
+          resources:
+            limits:
+              cpu: 10m
+              memory: 10Mi
+            requests:
+              cpu: 10m
+              memory: 10Mi
           volumeMounts:
             - name: help
-              mountPath: /home/static
+              mountPath: /data
               readOnly: true
           securityContext:
             runAsUser: 10001
             runAsGroup: 10001
+            runAsNonRoot: true
             readOnlyRootFilesystem: true
             privileged: false
             allowPrivilegeEscalation: false
             capabilities:
               drop: [ALL]
+      enableServiceLinks: false
       automountServiceAccountToken: false
       terminationGracePeriodSeconds: 0
       volumes:

@@ -74,7 +74,7 @@
 		<version.com.puppycrawl.tools.checkstyle>10.3.4</version.com.puppycrawl.tools.checkstyle>
 		<version.io.github.git-commit-id>5.0.0</version.io.github.git-commit-id>
 		<version.io.kokuwa.checkstyle>0.5.6</version.io.kokuwa.checkstyle>
-		<version.io.kokuwa.maven.k3s>0.6.1</version.io.kokuwa.maven.k3s>
+		<version.io.kokuwa.maven.k3s>0.6.2</version.io.kokuwa.maven.k3s>
 
 		<!-- dependencies -->
 

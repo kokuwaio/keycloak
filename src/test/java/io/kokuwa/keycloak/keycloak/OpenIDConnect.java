@@ -13,7 +13,8 @@ public class OpenIDConnect {
 	}
 
 	public AccessTokenResponse token(String realm, String username, String password) {
-		return client.token(realm, OAuth2Constants.PASSWORD, "test-client", username, password);
+		return client.token(
+				realm, OAuth2Constants.PASSWORD, "test-client", username, password, OAuth2Constants.SCOPE_OPENID);
 	}
 
 	public UserInfo userinfo(String realm, AccessTokenResponse token) {

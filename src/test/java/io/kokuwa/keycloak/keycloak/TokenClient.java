@@ -26,10 +26,11 @@ public interface TokenClient {
 			@FormParam(OAuth2Constants.GRANT_TYPE) String grantType,
 			@FormParam(OAuth2Constants.CLIENT_ID) String clientId,
 			@FormParam(OAuth2Constants.USERNAME) String username,
-			@FormParam(OAuth2Constants.PASSWORD) String password);
+			@FormParam(OAuth2Constants.PASSWORD) String password,
+			@FormParam(OAuth2Constants.SCOPE) String scope);
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("http://auth.{realm-name}.127.0.0.1.nip.io:8080/realms/{realm-name}/protocol/openid-connect//userinfo")
+	@Path("http://auth.{realm-name}.127.0.0.1.nip.io:8080/realms/{realm-name}/protocol/openid-connect/userinfo")
 	UserInfo userinfo(@PathParam("realm-name") String realm, @HeaderParam(HttpHeaders.AUTHORIZATION) String auth);
 }

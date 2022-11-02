@@ -4,9 +4,6 @@ updates:
     directory: /
     schedule:
       interval: daily
-    ignore:
-      - dependency-name: org.slf4j:slf4j-simple
-        update-types: [version-update:semver-major, version-update:semver-minor]
   - package-ecosystem: github-actions
     directory: /
     schedule:

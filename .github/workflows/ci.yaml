@@ -40,20 +40,6 @@ jobs:
         with:
           dockerfile: src/main/docker/Dockerfile
 
-  codeql:
-    runs-on: ubuntu-latest
-    permissions:
-      security-events: write
-      actions: read
-      contents: read
-    steps:
-      - uses: actions/checkout@v3
-      - uses: github/codeql-action/init@v2
-        with:
-          languages: java
-      - uses: github/codeql-action/autobuild@v2
-      - uses: github/codeql-action/analyze@v2
-
   build:
     runs-on: ubuntu-latest
     if: ${{ github.ref != 'refs/heads/main' }}
@@ -66,7 +52,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 17
           cache: maven
       - run: mvn -B dependency:go-offline
       - run: mvn -B verify

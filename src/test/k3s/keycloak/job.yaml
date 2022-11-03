@@ -34,11 +34,8 @@ spec:
             readOnlyRootFilesystem: true
       containers:
         - name: realms
-          image: ${image.name}:${image.tag}
+          image: ${image.name}:${image.tag}-${image.tag.test}-import
           imagePullPolicy: Never
-          args:
-            - import
-            - --dir=/realms
           envFrom:
             - secretRef:
                 name: keycloak-database

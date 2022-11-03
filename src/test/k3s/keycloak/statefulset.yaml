@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: keycloak
-          image: ${image.name}:${image.tag}
+          image: ${image.name}:${image.tag}-${image.tag.test}
           imagePullPolicy: Never
           envFrom:
             - configMapRef:

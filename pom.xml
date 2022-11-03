@@ -49,6 +49,7 @@
 
 		<image.name>kokuwaio/keycloak</image.name>
 		<image.tag>snapshot</image.tag>
+		<image.tag.test>temurin</image.tag.test>
 
 		<checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
 		<checkstyle.suppressions.location>checkstyle-suppression.xml</checkstyle.suppressions.location>
@@ -286,7 +287,7 @@
 									<type>tar.gz</type>
 								</artifactItem>
 							</artifactItems>
-							<outputDirectory>${project.build.directory}/docker</outputDirectory>
+							<outputDirectory>${project.build.directory}/docker/base</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -302,7 +303,7 @@
 						</goals>
 						<configuration>
 							<url>https://github.com/aerogear/keycloak-metrics-spi/releases/download/${version.org.keycloak.metrics}/keycloak-metrics-spi-${version.org.keycloak.metrics}.jar</url>
-							<toDir>${project.build.directory}/docker</toDir>
+							<toDir>${project.build.directory}/docker/temurin</toDir>
 							<skipIfExists>true</skipIfExists>
 						</configuration>
 					</execution>
@@ -377,22 +378,85 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
 					<execution>
+						<id>docker-base</id>
 						<phase>package</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>docker</executable>
-							<workingDirectory>${project.basedir}</workingDirectory>
 							<arguments>
 								<argument>build</argument>
 								<argument>--tag</argument>
-								<argument>${image.name}:${image.tag}</argument>
-								<argument>${project.build.directory}/docker</argument>
+								<argument>${image.name}:${image.tag}-base</argument>
+								<argument>${project.build.directory}/docker/base</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>docker-temurin</id>
+						<phase>package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>build</argument>
+								<argument>--tag</argument>
+								<argument>${image.name}:${image.tag}-temurin</argument>
+								<argument>${project.build.directory}/docker/temurin</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>docker-temurin-import</id>
+						<phase>package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>build</argument>
+								<argument>--tag</argument>
+								<argument>${image.name}:${image.tag}-temurin-import</argument>
+								<argument>${project.build.directory}/docker/temurin-import</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>docker-distroless</id>
+						<phase>package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>build</argument>
+								<argument>--tag</argument>
+								<argument>${image.name}:${image.tag}-distroless</argument>
+								<argument>${project.build.directory}/docker/distroless</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>docker-distroless-import</id>
+						<phase>package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>build</argument>
+								<argument>--tag</argument>
+								<argument>${image.name}:${image.tag}-distroless-import</argument>
+								<argument>${project.build.directory}/docker/distroless-import</argument>
 							</arguments>
 						</configuration>
 					</execution>
 				</executions>
+				<configuration>
+					<executable>docker</executable>
+					<workingDirectory>${project.basedir}</workingDirectory>
+				</configuration>
 			</plugin>
 
 			<!-- handle k3s lifecycle -->
@@ -425,7 +489,8 @@
 						<ctrImage>${image.traefik}</ctrImage>
 					</ctrImages>
 					<dockerImages>
-						<dockerImage>${image.name}:${image.tag}</dockerImage>
+						<dockerImage>${image.name}:${image.tag}-${image.tag.test}</dockerImage>
+						<dockerImage>${image.name}:${image.tag}-${image.tag.test}-import</dockerImage>
 					</dockerImages>
 				</configuration>
 			</plugin>

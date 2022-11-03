@@ -34,25 +34,29 @@ jobs:
 
   dockerfile:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        context: [base, temurin, temurin-import, distroless, distroless-import]
     steps:
       - uses: actions/checkout@v3
       - uses: hadolint/hadolint-action@v2.1.0
         with:
-          dockerfile: src/main/docker/Dockerfile
+          dockerfile: src/main/docker/${{ matrix.context }}/Dockerfile
 
-  build:
+  verify:
     runs-on: ubuntu-latest
     if: ${{ github.ref != 'refs/heads/main' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        image: [temurin, distroless]
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/cache@v3
-        with:
-          path: /tmp/k3s-maven-plugin/rancher/
-          key: rancher
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 17
           cache: maven
-      - run: mvn -B dependency:go-offline
-      - run: mvn -B verify
+      - run: mvn -B -ntp dependency:go-offline
+      - run: mvn -B -ntp verify -Dimage.tag.test=${{ matrix.image }}

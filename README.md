@@ -8,7 +8,9 @@ Keycloak container image for Kokuwa.
 
 ## Features
 
-- BaseImage is [eclipse-temurin:17-jre](https://hub.docker.com/_/eclipse-temurin)
+- BaseImage:
+  - [docker.io/eclipse-temurin:17-jre](https://hub.docker.com/_/eclipse-temurin) (amd64 & arm64)
+  - [gcr.io/distroless/java17:nonroot](https://gcr.io/distroless/java17:nonroot) (amd64)
 - preconfigured with PostgeSQL
 - preconfigured for Kubernetes:
   - health enabled
@@ -16,6 +18,7 @@ Keycloak container image for Kokuwa.
   - keycloak metrics enabled (see [aerogear/keycloak-metrics-spi](https://github.com/aerogear/keycloak-metrics-spi))
   - logs as json
   - ispn cache
+- preconfigured tag for realm import from directory `/realms` (see [job.yaml](/src/test/k3s/keycloak/job.yaml))
 - [integration test](/src/test/k3s) with [k3s](https://k3s.io/)
 
 ## Why
@@ -51,6 +54,8 @@ Tags:
 - `<majorVersion>-<yyyyMMdd-HHmmss>` timestamped major version (e.g. for FluxCD)
 - `<version>` specific version for Keycloak
 - `<version>-<yyyyMMdd-HHmmss>` timestamped version (e.g. for FluxCD)
+- all tags are available with suffix `-import` for realm import without cache
+- all tags are available with suffix `-temurin` or `-distroless` for specific base images
 
 ## Develop and testing
 

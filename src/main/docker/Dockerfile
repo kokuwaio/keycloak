@@ -4,11 +4,12 @@
 
 FROM eclipse-temurin:${maven.compiler.target}-jre AS build
 
-ARG VERSION=${version.org.keycloak}
-ADD keycloak-quarkus-dist-$VERSION.tar.gz /tmp
-ADD https://github.com/aerogear/keycloak-metrics-spi/releases/download/2.5.3/keycloak-metrics-spi-2.5.3.jar /tmp/keycloak-$VERSION/providers/metrics-spi.jar
-COPY cache-ispn.xml /tmp/keycloak-$VERSION/conf/cache-ispn.xml
-RUN mv /tmp/keycloak-$VERSION /app && rm -rf /app/bin && chmod -R ugo+r /app
+ARG VERSION_KEYCLOAK=${version.org.keycloak}
+ARG VERSION_METRICS=${version.org.keycloak.metrics}
+ADD keycloak-quarkus-dist-$VERSION_KEYCLOAK.tar.gz /tmp
+COPY keycloak-metrics-spi-$VERSION_METRICS.jar /tmp/keycloak-$VERSION_KEYCLOAK/providers/metrics-spi.jar
+COPY cache-ispn.xml /tmp/keycloak-$VERSION_KEYCLOAK/conf/cache-ispn.xml
+RUN mv "/tmp/keycloak-$VERSION_KEYCLOAK" /app && rm -rf /app/bin && chmod -R ugo+r /app
 
 # https://www.keycloak.org/server/all-config
 ENV KC_DB=postgres

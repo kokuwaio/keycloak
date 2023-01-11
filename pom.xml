@@ -81,7 +81,7 @@
 		<!-- dependencies -->
 
 		<version.io.kubernetes.client>17.0.0</version.io.kubernetes.client>
-		<version.org.junit.jupiter>5.9.1</version.org.junit.jupiter>
+		<version.org.junit.jupiter>5.9.2</version.org.junit.jupiter>
 		<version.org.keycloak>20.0.2</version.org.keycloak>
 		<version.org.keycloak.metrics>2.5.3</version.org.keycloak.metrics>
 		<version.org.slf4j>2.0.6</version.org.slf4j>

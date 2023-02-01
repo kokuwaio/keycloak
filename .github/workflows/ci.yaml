@@ -40,7 +40,7 @@ jobs:
         context: [base, temurin, temurin-import, distroless, distroless-import]
     steps:
       - uses: actions/checkout@v3
-      - uses: hadolint/hadolint-action@v3.0.0
+      - uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: src/main/docker/${{ matrix.context }}/Dockerfile
 

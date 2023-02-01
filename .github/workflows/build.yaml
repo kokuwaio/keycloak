@@ -103,35 +103,35 @@ jobs:
             ${{ env.major }}-distroless-import
             ${{ env.major }}-${{ env.timestamp }}-distroless-import
       - name: docker/build-push-action base
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: target/docker/base
           push: true
           platforms: linux/amd64,linux/arm64
           tags: docker.io/kokuwaio/keycloak:${{ env.version }}-${{ env.timestamp }}-base
       - name: docker/build-push-action temurin
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: target/docker/temurin
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.temurin.outputs.tags }}
       - name: docker/build-push-action temurin-import
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: target/docker/temurin-import
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.temurin-import.outputs.tags }}
       - name: docker/build-push-action distroless
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: target/docker/distroless
           push: true
           platforms: linux/amd64
           tags: ${{ steps.distroless.outputs.tags }}
       - name: docker/build-push-action distroless-import
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: target/docker/distroless-import
           push: true

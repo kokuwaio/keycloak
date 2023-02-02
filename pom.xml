@@ -80,7 +80,7 @@
 
 		<!-- dependencies -->
 
-		<version.io.kubernetes.client>17.0.0</version.io.kubernetes.client>
+		<version.io.kubernetes.client>17.0.1</version.io.kubernetes.client>
 		<version.org.junit.jupiter>5.9.2</version.org.junit.jupiter>
 		<version.org.keycloak>20.0.2</version.org.keycloak>
 		<version.org.keycloak.metrics>2.5.3</version.org.keycloak.metrics>

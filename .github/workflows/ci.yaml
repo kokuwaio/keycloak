@@ -44,6 +44,18 @@ jobs:
         with:
           dockerfile: src/main/docker/${{ matrix.context }}/Dockerfile
 
+  checkstyle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+      - run: mvn -B -ntp dependency:go-offline
+      - run: mvn -B -ntp checkstyle:check
+
   verify:
     runs-on: ubuntu-latest
     if: ${{ github.ref != 'refs/heads/main' }}
@@ -59,4 +71,4 @@ jobs:
           java-version: 17
           cache: maven
       - run: mvn -B -ntp dependency:go-offline
-      - run: mvn -B -ntp verify -Dimage.tag.test=${{ matrix.image }}
+      - run: mvn -B -ntp verify -Dimage.tag.test=${{ matrix.image }} -Dcheckstyle.skip

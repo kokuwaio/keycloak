@@ -3,8 +3,8 @@
 Keycloak container image for Kokuwa.
 
 [![License](https://img.shields.io/github/license/kokuwaio/keycloak.svg?label=License)](https://github.com/kokuwaio/keycloak/blob/main/LICENSE)
-[![Build](https://img.shields.io/github/workflow/status/kokuwaio/keycloak/Build?label=Build)](https://github.com/kokuwaio/keycloak/actions/workflows/build.yaml)
-[![Lint](https://img.shields.io/github/workflow/status/kokuwaio/keycloak/CI/main?label=CI)](https://github.com/kokuwaio/keycloak/actions/workflows/ci.yaml)
+[![Build](https://img.shields.io/github/actions/workflow/status/kokuwaio/keycloak/build.yaml?branch=main&label=Build)](https://github.com/kokuwaio/keycloak/actions/workflows/build.yaml)
+[![CI](https://img.shields.io/github/actions/workflow/status/kokuwaio/keycloak/ci.yaml?branch=main&label=Lint)](https://github.com/kokuwaio/keycloak/actions/workflows/ci.yaml)
 
 ## Features
 

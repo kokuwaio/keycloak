@@ -58,7 +58,7 @@
 
 		<version.org.apache.maven.plugins.checkstyle>3.2.1</version.org.apache.maven.plugins.checkstyle>
 		<version.org.apache.maven.plugins.clean>3.2.0</version.org.apache.maven.plugins.clean>
-		<version.org.apache.maven.plugins.compiler>3.10.1</version.org.apache.maven.plugins.compiler>
+		<version.org.apache.maven.plugins.compiler>3.11.0</version.org.apache.maven.plugins.compiler>
 		<version.org.apache.maven.plugins.dependency>3.5.0</version.org.apache.maven.plugins.dependency>
 		<version.org.apache.maven.plugins.deploy>3.1.0</version.org.apache.maven.plugins.deploy>
 		<version.org.apache.maven.plugins.install>3.1.0</version.org.apache.maven.plugins.install>
@@ -68,7 +68,7 @@
 		<version.org.codehaus.mojo.exec>3.1.0</version.org.codehaus.mojo.exec>
 		<version.org.codehaus.mojo.tidy>1.2.0</version.org.codehaus.mojo.tidy>
 		<version.org.codehaus.mojo.wagon>2.0.2</version.org.codehaus.mojo.wagon>
-		<version.com.puppycrawl.tools.checkstyle>10.7.0</version.com.puppycrawl.tools.checkstyle>
+		<version.com.puppycrawl.tools.checkstyle>10.8.0</version.com.puppycrawl.tools.checkstyle>
 		<version.io.github.git-commit-id>5.0.0</version.io.github.git-commit-id>
 		<version.io.kokuwa.checkstyle>0.5.6</version.io.kokuwa.checkstyle>
 		<version.io.kokuwa.maven.k3s>0.8.0</version.io.kokuwa.maven.k3s>

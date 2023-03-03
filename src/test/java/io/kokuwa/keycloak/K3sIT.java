@@ -51,12 +51,10 @@ public class K3sIT {
 
 		var kokuwa = keycloak.realm("kokuwa").toRepresentation();
 		var test = keycloak.realm("test").toRepresentation();
-		var loginAttemptsGrayc = prometheus.loginAttempts(kokuwa);
 		var loginSuccessGrayc = prometheus.logins(kokuwa);
-		var loginFailedGrayc = prometheus.failedLoginAttempts(kokuwa);
-		var loginAttemptsTest = prometheus.loginAttempts(test);
+		var loginFailedGrayc = prometheus.loginErrors(kokuwa);
 		var loginSuccessTest = prometheus.logins(test);
-		var loginFailedTest = prometheus.failedLoginAttempts(test);
+		var loginFailedTest = prometheus.loginErrors(test);
 
 		// do some successful logins
 
@@ -75,12 +73,10 @@ public class K3sIT {
 		// check metrics count
 
 		assertAll("metrics",
-				() -> assertEquals(loginAttemptsGrayc + 5, prometheus.loginAttempts(kokuwa), "kokuwa loginAttempts"),
 				() -> assertEquals(loginSuccessGrayc + 3, prometheus.logins(kokuwa), "kokuwa loginSuccess"),
-				() -> assertEquals(loginFailedGrayc + 2, prometheus.failedLoginAttempts(kokuwa), "kokuwa loginFailed"),
-				() -> assertEquals(loginAttemptsTest + 3, prometheus.loginAttempts(test), "test loginAttempts"),
+				() -> assertEquals(loginFailedGrayc + 2, prometheus.loginErrors(kokuwa), "kokuwa loginFailed"),
 				() -> assertEquals(loginSuccessTest + 2, prometheus.logins(test), "test loginSuccess"),
-				() -> assertEquals(loginFailedTest + 1, prometheus.failedLoginAttempts(test), "test loginFailed"));
+				() -> assertEquals(loginFailedTest + 1, prometheus.loginErrors(test), "test loginFailed"));
 	}
 
 	@DisplayName("keycloak mail configured")

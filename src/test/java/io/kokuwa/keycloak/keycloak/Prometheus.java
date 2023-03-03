@@ -8,6 +8,11 @@ import java.util.stream.Stream;
 
 import org.keycloak.representations.idm.RealmRepresentation;
 
+/**
+ * Client to access Prometheus metric values:
+ *
+ * @author Stephan Schnabel
+ */
 public class Prometheus {
 
 	private final PrometheusClient client;
@@ -17,15 +22,21 @@ public class Prometheus {
 	}
 
 	public int logins(RealmRepresentation realm) {
-		return scrap("keycloak_logins", "realm", realm.getId()).intValue();
+		return scrap().stream()
+				.filter(metric -> Objects.equals(metric.name(), "keycloak_event_user_total"))
+				.filter(metric -> Objects.equals(metric.tags().get("realm"), realm.getId()))
+				.filter(metric -> Objects.equals(metric.tags().get("type"), "LOGIN"))
+				.mapToInt(metric -> metric.value().intValue())
+				.sum();
 	}
 
-	public int failedLoginAttempts(RealmRepresentation realm) {
-		return scrap("keycloak_failed_login_attempts", "realm", realm.getId()).intValue();
-	}
-
-	public int loginAttempts(RealmRepresentation realm) {
-		return scrap("keycloak_login_attempts", "realm", realm.getId()).intValue();
+	public int loginErrors(RealmRepresentation realm) {
+		return scrap().stream()
+				.filter(metric -> Objects.equals(metric.name(), "keycloak_event_user_total"))
+				.filter(metric -> Objects.equals(metric.tags().get("realm"), realm.getId()))
+				.filter(metric -> Objects.equals(metric.tags().get("type"), "LOGIN_ERROR"))
+				.mapToInt(metric -> metric.value().intValue())
+				.sum();
 	}
 
 	private Set<PrometheusMetric> scrap() {
@@ -43,13 +54,5 @@ public class Prometheus {
 					return new PrometheusMetric(name, tags, value);
 				})
 				.collect(Collectors.toSet());
-	}
-
-	private Double scrap(String name, String tag, String value) {
-		return scrap().stream()
-				.filter(metric -> Objects.equals(metric.getName(), name))
-				.filter(metric -> Objects.equals(metric.getTags().get(tag), value))
-				.mapToDouble(PrometheusMetric::getValue)
-				.sum();
 	}
 }

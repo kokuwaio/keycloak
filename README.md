@@ -66,7 +66,7 @@ Start k3s: `mvn pre-integration-test`
 Open <http://help.127.0.0.1.nip.io:8080> or use `kubectl`:
 
 ```sh
-export KUBECONFIG=/tmp/k3s-maven-plugin/mount/kubeconfig.yaml
+export KUBECONFIG=~/.kube/k3s-maven-plugin/mount/kubeconfig.yaml
 kubectl get all --all-namespaces
 ```
 

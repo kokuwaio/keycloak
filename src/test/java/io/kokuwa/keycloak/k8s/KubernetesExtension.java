@@ -17,10 +17,11 @@ public class KubernetesExtension implements ParameterResolver, BeforeAllCallback
 
 	public Kubernetes kubernetes() {
 		if (kubernetes == null) {
+			var kubeconfig = System.getProperty("user.home") + "/.kube/k3s-maven-plugin/mount/kubeconfig.yaml";
 			try {
-				kubernetes = new Kubernetes(Config.fromConfig("/tmp/k3s-maven-plugin/mount/kubeconfig.yaml"));
+				kubernetes = new Kubernetes(Config.fromConfig(kubeconfig));
 			} catch (IOException e) {
-				throw new ParameterResolutionException("Failed to read kubeconfig", e);
+				throw new ParameterResolutionException("Failed to read kubeconfig from " + kubeconfig, e);
 			}
 		}
 		return kubernetes;

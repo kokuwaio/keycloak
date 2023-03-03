@@ -2,27 +2,12 @@ package io.kokuwa.keycloak.keycloak;
 
 import java.util.Map;
 
-public class PrometheusMetric {
-
-	private final String name;
-	private final Map<String, String> tags;
-	private final Double value;
-
-	public PrometheusMetric(String name, Map<String, String> tags, Double value) {
-		this.name = name;
-		this.tags = tags;
-		this.value = value;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public Map<String, String> getTags() {
-		return tags;
-	}
-
-	public Double getValue() {
-		return value;
-	}
-}
+/**
+ * Represents a parsed Prometheus line.
+ *
+ * @author Stephan Schnabel
+ * @param name  Metric name
+ * @param tags  Tags for this metriv value
+ * @param value Metric value
+ */
+public record PrometheusMetric(String name, Map<String, String> tags, Double value) {}

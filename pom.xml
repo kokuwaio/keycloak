@@ -67,7 +67,6 @@
 		<version.org.apache.maven.plugins.surefire>3.0.0-M9</version.org.apache.maven.plugins.surefire>
 		<version.org.codehaus.mojo.exec>3.1.0</version.org.codehaus.mojo.exec>
 		<version.org.codehaus.mojo.tidy>1.2.0</version.org.codehaus.mojo.tidy>
-		<version.org.codehaus.mojo.wagon>2.0.2</version.org.codehaus.mojo.wagon>
 		<version.com.puppycrawl.tools.checkstyle>10.8.0</version.com.puppycrawl.tools.checkstyle>
 		<version.io.github.git-commit-id>5.0.0</version.io.github.git-commit-id>
 		<version.io.kokuwa.checkstyle>0.5.6</version.io.kokuwa.checkstyle>
@@ -75,10 +74,10 @@
 
 		<!-- dependencies -->
 
+		<version.io.kokuwa.keycloak.metrics>0.1.0</version.io.kokuwa.keycloak.metrics>
 		<version.io.kubernetes.client>17.0.1</version.io.kubernetes.client>
 		<version.org.junit.jupiter>5.9.2</version.org.junit.jupiter>
-		<version.org.keycloak>20.0.3</version.org.keycloak>
-		<version.org.keycloak.metrics>2.5.3</version.org.keycloak.metrics>
+		<version.org.keycloak>21.0.1</version.org.keycloak>
 		<version.org.slf4j>2.0.6</version.org.slf4j>
 
 		<!-- images -->
@@ -106,6 +105,11 @@
 				<groupId>org.keycloak</groupId>
 				<artifactId>keycloak-authz-client</artifactId>
 				<version>${version.org.keycloak}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.kokuwa.keycloak</groupId>
+				<artifactId>keycloak-event-metrics</artifactId>
+				<version>${version.io.kokuwa.keycloak.metrics}</version>
 			</dependency>
 
 			<!-- test -->
@@ -250,11 +254,6 @@
 					<version>${version.org.codehaus.mojo.tidy}</version>
 				</plugin>
 				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>wagon-maven-plugin</artifactId>
-					<version>${version.org.codehaus.mojo.wagon}</version>
-				</plugin>
-				<plugin>
 					<groupId>io.github.git-commit-id</groupId>
 					<artifactId>git-commit-id-maven-plugin</artifactId>
 					<version>${version.io.github.git-commit-id}</version>
@@ -285,26 +284,15 @@
 									<artifactId>keycloak-quarkus-dist</artifactId>
 									<version>${version.org.keycloak}</version>
 									<type>tar.gz</type>
+									<outputDirectory>${project.build.directory}/docker/base</outputDirectory>
+								</artifactItem>
+								<artifactItem>
+									<groupId>io.kokuwa.keycloak</groupId>
+									<artifactId>keycloak-event-metrics</artifactId>
+									<version>${version.io.kokuwa.keycloak.metrics}</version>
+									<outputDirectory>${project.build.directory}/docker/temurin</outputDirectory>
 								</artifactItem>
 							</artifactItems>
-							<outputDirectory>${project.build.directory}/docker/base</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>wagon-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-						<configuration>
-							<url>https://github.com/aerogear/keycloak-metrics-spi/releases/download/${version.org.keycloak.metrics}/keycloak-metrics-spi-${version.org.keycloak.metrics}.jar</url>
-							<toDir>${project.build.directory}/docker/temurin</toDir>
-							<skipIfExists>true</skipIfExists>
 						</configuration>
 					</execution>
 				</executions>

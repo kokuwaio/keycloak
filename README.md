@@ -15,7 +15,7 @@ Keycloak container image for Kokuwa.
 - preconfigured for Kubernetes:
   - health enabled
   - quarkus metrics enabled
-  - keycloak metrics enabled (see [aerogear/keycloak-metrics-spi](https://github.com/aerogear/keycloak-metrics-spi))
+  - keycloak metrics enabled (see [keycloak-event-metrics](https://github.com/kokuwaio/keycloak-event-metrics))
   - logs as json
   - ispn cache
 - preconfigured tag for realm import from directory `/realms` (see [job.yaml](/src/test/k3s/keycloak/job.yaml))

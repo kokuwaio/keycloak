@@ -89,7 +89,9 @@ public class K3sIT {
 
 		// trigger password refresh
 
-		keycloak.realms().realm("kokuwa").users().get("kokuwa-admin").executeActionsEmail(List.of("UPDATE_PASSWORD"));
+		keycloak.realms().realm("kokuwa")
+				.users().get("kokuwa-admin-id")
+				.executeActionsEmail(List.of("UPDATE_PASSWORD"));
 
 		// check for email in greenmail
 

@@ -1,5 +1,5 @@
 {
-	"id": "test",
+	"id": "test-id",
 	"enabled": true,
 	"realm": "test",
 	"attributes": {
@@ -7,14 +7,14 @@
 	},
 	"users": [
 		{
-			"id": "test-admin",
+			"id": "test-admin-id",
 			"enabled": true,
 			"username": "admin",
 			"email": "admin@example.org",
 			"credentials": [ { "type": "password", "value": "password" } ],
 			"clientRoles": { "realm-management": [ "realm-admin" ] }
 		},{
-			"id": "test-horst",
+			"id": "test-horst-id",
 			"enabled": true,
 			"username": "horst",
 			"email": "horst@example.org",
@@ -23,6 +23,7 @@
 	],
 	"clients": [
 		{
+			"id": "test-test-client-id",
 			"enabled": true,
 			"clientId": "test-client",
 			"standardFlowEnabled": true,

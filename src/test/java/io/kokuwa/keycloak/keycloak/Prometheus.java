@@ -24,7 +24,7 @@ public class Prometheus {
 	public int logins(RealmRepresentation realm) {
 		return scrap().stream()
 				.filter(metric -> Objects.equals(metric.name(), "keycloak_event_user_total"))
-				.filter(metric -> Objects.equals(metric.tags().get("realm"), realm.getId()))
+				.filter(metric -> Objects.equals(metric.tags().get("realm"), realm.getRealm()))
 				.filter(metric -> Objects.equals(metric.tags().get("type"), "LOGIN"))
 				.mapToInt(metric -> metric.value().intValue())
 				.sum();
@@ -33,7 +33,7 @@ public class Prometheus {
 	public int loginErrors(RealmRepresentation realm) {
 		return scrap().stream()
 				.filter(metric -> Objects.equals(metric.name(), "keycloak_event_user_total"))
-				.filter(metric -> Objects.equals(metric.tags().get("realm"), realm.getId()))
+				.filter(metric -> Objects.equals(metric.tags().get("realm"), realm.getRealm()))
 				.filter(metric -> Objects.equals(metric.tags().get("type"), "LOGIN_ERROR"))
 				.mapToInt(metric -> metric.value().intValue())
 				.sum();

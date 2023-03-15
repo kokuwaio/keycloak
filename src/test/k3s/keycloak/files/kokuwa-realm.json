@@ -1,5 +1,5 @@
 {
-	"id": "kokuwa",
+	"id": "kokuwa-id",
 	"enabled": true,
 	"realm": "kokuwa",
 	"attributes": {
@@ -7,14 +7,14 @@
 	},
 	"users": [
 		{
-			"id": "kokuwa-admin",
+			"id": "kokuwa-admin-id",
 			"enabled": true,
 			"username": "admin",
 			"email": "admin@example.org",
 			"credentials": [ { "type": "password", "value": "password" } ],
 			"clientRoles": { "realm-management": [ "realm-admin" ] }
 		},{
-			"id": "kokuwa-horst",
+			"id": "kokuwa-horst-id",
 			"enabled": true,
 			"username": "horst",
 			"email": "horst@example.org",
@@ -23,6 +23,7 @@
 	],
 	"clients": [
 		{
+			"id": "kokuwa-test-client-id",
 			"enabled": true,
 			"clientId": "test-client",
 			"standardFlowEnabled": true,
@@ -35,6 +36,7 @@
 			"defaultClientScopes": [],
 			"optionalClientScopes": []
 		},{
+			"id": "kokuwa-grafana-id",
 			"enabled": true,
 			"clientId": "grafana",
 			"publicClient": false,

@@ -39,7 +39,12 @@ spec:
           securityContext:
             runAsUser: 10001
             runAsGroup: 10001
+            runAsNonRoot: true
             readOnlyRootFilesystem: true
+            privileged: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
       containers:
         - name: grafana
           image: ${image.grafana}
@@ -72,6 +77,7 @@ spec:
           securityContext:
             runAsUser: 10001
             runAsGroup: 10001
+            runAsNonRoot: true
             readOnlyRootFilesystem: true
             privileged: false
             allowPrivilegeEscalation: false

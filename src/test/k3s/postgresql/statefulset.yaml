@@ -7,11 +7,11 @@ spec:
   serviceName: postgresql
   selector:
     matchLabels:
-      app: postgresql
+      app.kubernetes.io/name: postgresql
   template:
     metadata:
       labels:
-        app: postgresql
+        app.kubernetes.io/name: postgresql
     spec:
       containers:
         - name: postgresql
@@ -50,10 +50,10 @@ spec:
           securityContext:
             runAsNonRoot: true
             readOnlyRootFilesystem: true
-            capabilities:
-              drop: [ALL]
             privileged: false
             allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
       automountServiceAccountToken: false
       terminationGracePeriodSeconds: 10
       securityContext:

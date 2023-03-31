@@ -45,11 +45,12 @@ spec:
           securityContext:
             runAsUser: 10001
             runAsGroup: 10001
+            runAsNonRoot: true
             readOnlyRootFilesystem: true
-            capabilities:
-              drop: [ALL]
             privileged: false
             allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
       automountServiceAccountToken: true
       serviceAccountName: prometheus
       terminationGracePeriodSeconds: 10

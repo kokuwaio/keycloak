@@ -60,8 +60,8 @@
 		<version.org.apache.maven.plugins.clean>3.2.0</version.org.apache.maven.plugins.clean>
 		<version.org.apache.maven.plugins.compiler>3.11.0</version.org.apache.maven.plugins.compiler>
 		<version.org.apache.maven.plugins.dependency>3.5.0</version.org.apache.maven.plugins.dependency>
-		<version.org.apache.maven.plugins.deploy>3.1.0</version.org.apache.maven.plugins.deploy>
-		<version.org.apache.maven.plugins.install>3.1.0</version.org.apache.maven.plugins.install>
+		<version.org.apache.maven.plugins.deploy>3.1.1</version.org.apache.maven.plugins.deploy>
+		<version.org.apache.maven.plugins.install>3.1.1</version.org.apache.maven.plugins.install>
 		<version.org.apache.maven.plugins.jar>3.3.0</version.org.apache.maven.plugins.jar>
 		<version.org.apache.maven.plugins.resources>3.3.1</version.org.apache.maven.plugins.resources>
 		<version.org.apache.maven.plugins.surefire>3.0.0</version.org.apache.maven.plugins.surefire>
@@ -74,7 +74,7 @@
 
 		<!-- dependencies -->
 
-		<version.io.kokuwa.keycloak.metrics>0.2.0</version.io.kokuwa.keycloak.metrics>
+		<version.io.kokuwa.keycloak.metrics>0.2.1</version.io.kokuwa.keycloak.metrics>
 		<version.io.kubernetes.client>18.0.0</version.io.kubernetes.client>
 		<version.org.junit.jupiter>5.9.2</version.org.junit.jupiter>
 		<version.org.keycloak>21.0.2</version.org.keycloak>

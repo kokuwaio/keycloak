@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: kubernetes-dashboard
 spec:
+  replicas: 0
   selector:
     matchLabels:
       app.kubernetes.io/name: kubernetes-dashboard
@@ -14,7 +15,7 @@ spec:
       containers:
         - name: dashboard
           image: ${image.dashboard}
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
           args:
             - --namespace=default
             - --disable-settings-authorizer=true

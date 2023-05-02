@@ -1,5 +1,6 @@
 package io.kokuwa.keycloak.keycloak;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -15,6 +16,7 @@ import org.keycloak.representations.idm.RealmRepresentation;
  */
 public class Prometheus {
 
+	private final Set<PrometheusMetric> state = new HashSet<>();
 	private final PrometheusClient client;
 
 	public Prometheus(PrometheusClient client) {
@@ -22,7 +24,7 @@ public class Prometheus {
 	}
 
 	public int logins(RealmRepresentation realm) {
-		return scrap().stream()
+		return state.stream()
 				.filter(metric -> Objects.equals(metric.name(), "keycloak_event_user_total"))
 				.filter(metric -> Objects.equals(metric.tags().get("realm"), realm.getRealm()))
 				.filter(metric -> Objects.equals(metric.tags().get("type"), "LOGIN"))
@@ -31,7 +33,7 @@ public class Prometheus {
 	}
 
 	public int loginErrors(RealmRepresentation realm) {
-		return scrap().stream()
+		return state.stream()
 				.filter(metric -> Objects.equals(metric.name(), "keycloak_event_user_total"))
 				.filter(metric -> Objects.equals(metric.tags().get("realm"), realm.getRealm()))
 				.filter(metric -> Objects.equals(metric.tags().get("type"), "LOGIN_ERROR"))
@@ -39,9 +41,11 @@ public class Prometheus {
 				.sum();
 	}
 
-	private Set<PrometheusMetric> scrap() {
-		return Stream.of(client.scrap().split("[\\r\\n]+"))
+	public void scrap() {
+		state.clear();
+		Stream.of(client.scrap().split("[\\r\\n]+"))
 				.filter(line -> !line.startsWith("#"))
+				.filter(line -> line.startsWith("keycloak"))
 				.map(line -> {
 					var name = line.substring(0, line.contains("{") ? line.indexOf("{") : line.lastIndexOf(" "));
 					var tags = line.contains("{")
@@ -53,6 +57,6 @@ public class Prometheus {
 					var value = Double.parseDouble(line.substring(line.lastIndexOf(" ")));
 					return new PrometheusMetric(name, tags, value);
 				})
-				.collect(Collectors.toSet());
+				.forEach(state::add);
 	}
 }

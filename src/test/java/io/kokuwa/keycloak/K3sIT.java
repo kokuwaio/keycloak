@@ -46,6 +46,7 @@ public class K3sIT {
 		// expect only one keycloak to get metrics from
 
 		kubernetes.scaleKeycloak(1);
+		prometheus.scrap();
 
 		// get state before test
 
@@ -72,6 +73,7 @@ public class K3sIT {
 
 		// check metrics count
 
+		prometheus.scrap();
 		assertAll("metrics",
 				() -> assertEquals(loginSuccessGrayc + 3, prometheus.logins(kokuwa), "kokuwa loginSuccess"),
 				() -> assertEquals(loginFailedGrayc + 2, prometheus.loginErrors(kokuwa), "kokuwa loginFailed"),

@@ -33,5 +33,5 @@ ENV \
 
 # hadolint ignore=DL3022
 COPY --from=kokuwaio/keycloak:${image.tag}-temurin /app /app
-ENTRYPOINT ["java","-XX:+ExitOnOutOfMemoryError","-Djgroups.dns.query=${KC_CACHE_DNS}","-jar","/app/lib/quarkus-run.jar"]
+ENTRYPOINT ["java", "--add-opens", "java.base/java.util=ALL-UNNAMED", "-XX:+ExitOnOutOfMemoryError", "-Djgroups.dns.query=${KC_CACHE_DNS}","-jar","/app/lib/quarkus-run.jar"]
 CMD ["start", "--optimized"]

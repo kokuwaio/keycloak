@@ -34,5 +34,5 @@ ENV \
 COPY cache-ispn.xml /tmp/keycloak-${version.org.keycloak}/conf/cache-ispn.xml
 COPY keycloak-event-metrics-${version.io.kokuwa.keycloak.metrics}.jar /app/providers/metrics-spi.jar
 RUN java -Dkc.home.dir=/app -jar /app/lib/quarkus-run.jar build
-ENTRYPOINT ["java","-XX:+ExitOnOutOfMemoryError","-Djgroups.dns.query=${KC_CACHE_DNS}","-jar","/app/lib/quarkus-run.jar"]
+ENTRYPOINT ["java", "--add-opens", "java.base/java.util=ALL-UNNAMED", "-XX:+ExitOnOutOfMemoryError", "-Djgroups.dns.query=${KC_CACHE_DNS}","-jar","/app/lib/quarkus-run.jar"]
 CMD ["start", "--optimized"]

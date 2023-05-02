@@ -53,7 +53,6 @@ jobs:
           distribution: temurin
           java-version: 17
           cache: maven
-      - run: mvn -B -ntp dependency:go-offline
       - run: mvn -B -ntp checkstyle:check
 
   verify:
@@ -70,5 +69,7 @@ jobs:
           distribution: temurin
           java-version: 17
           cache: maven
-      - run: mvn -B -ntp dependency:go-offline
-      - run: mvn -B -ntp verify -Dimage.tag.test=${{ matrix.image }} -Dcheckstyle.skip
+      - run: mvn -B -ntp verify -Dimage.tag.test=${{ matrix.image }} -Dcheckstyle.skip -Dk3s.skipRm
+      - name: Run kubectl logs -l app.kubernetes.io/name=keycloak
+        run: export KUBECONFIG=/home/runner/.kube/k3s-maven-plugin/mount/kubeconfig.yaml && kubectl logs -l app.kubernetes.io/name=keycloak --tail -1
+        if: ${{ failure() }}

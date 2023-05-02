@@ -1,0 +1,34 @@
+resources:
+  - ../test
+
+patches:
+
+  # enable user deployments
+  - target:
+      kind: Deployment
+      name: help
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  - target:
+      kind: Deployment
+      name: kubernetes-dashboard
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  - target:
+      kind: Deployment
+      name: grafana
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  - target:
+      kind: Deployment
+      name: prometheus
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1

@@ -463,17 +463,14 @@
 					</execution>
 				</executions>
 				<configuration>
-					<command>kubectl apply -k .</command>
+					<command>kubectl apply -k test</command>
 					<manifests>${project.build.directory}/k3s</manifests>
 					<portBindings>
 						<portBinding>8080:8080</portBinding>
 					</portBindings>
 					<ctrImages>
-						<ctrImage>${image.dashboard}</ctrImage>
-						<ctrImage>${image.grafana}</ctrImage>
 						<ctrImage>${image.mailhog}</ctrImage>
 						<ctrImage>${image.postgresql}</ctrImage>
-						<ctrImage>${image.prometheus}</ctrImage>
 						<ctrImage>${image.traefik}</ctrImage>
 					</ctrImages>
 					<dockerImages>
@@ -577,4 +574,26 @@
 
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<property>
+					<name>!env.CI</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>io.kokuwa.maven</groupId>
+						<artifactId>k3s-maven-plugin</artifactId>
+						<configuration>
+							<command>kubectl apply -k dev</command>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

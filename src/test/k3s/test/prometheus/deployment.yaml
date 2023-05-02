@@ -1,52 +1,48 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: help
+  name: prometheus
 spec:
+  replicas: 0
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
-      app.kubernetes.io/name: help
+      app.kubernetes.io/name: prometheus
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: help
+        app.kubernetes.io/name: prometheus
     spec:
       containers:
-        - name: help
-          image: pierrezemb/gostatic:latest
+        - name: prometheus
+          image: ${image.prometheus}
           imagePullPolicy: IfNotPresent
           args:
-            - -enable-health
-            - -port=8080
-            - -path=/data
+            - --storage.tsdb.path=/data
+            - --config.file=/etc/config/prometheus.yaml
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 9090
           startupProbe:
             httpGet:
-              path: /health
+              path: /-/ready
               port: http
             initialDelaySeconds: 5
             periodSeconds: 1
             successThreshold: 1
-            failureThreshold: 25
+            failureThreshold: 55
           livenessProbe:
             httpGet:
-              path: /health
+              path: /-/healthy
               port: http
-            periodSeconds: 60
-            failureThreshold: 1
-          resources:
-            limits:
-              cpu: 10m
-              memory: 10Mi
-            requests:
-              cpu: 10m
-              memory: 10Mi
           volumeMounts:
-            - name: help
-              mountPath: /data
+            - name: config
+              mountPath: /etc/config/prometheus.yaml
+              subPath: config.yaml
               readOnly: true
+            - name: data
+              mountPath: /data
           securityContext:
             runAsUser: 10001
             runAsGroup: 10001
@@ -56,10 +52,12 @@ spec:
             allowPrivilegeEscalation: false
             capabilities:
               drop: [ALL]
-      enableServiceLinks: false
-      automountServiceAccountToken: false
-      terminationGracePeriodSeconds: 0
+      automountServiceAccountToken: true
+      serviceAccountName: prometheus
+      terminationGracePeriodSeconds: 10
       volumes:
-        - name: help
+        - name: config
           configMap:
-            name: help
+            name: prometheus
+        - name: data
+          emptyDir: {}

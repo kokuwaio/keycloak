@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: grafana
 spec:
+  replicas: 0
   selector:
     matchLabels:
       app.kubernetes.io/name: grafana
@@ -18,7 +19,7 @@ spec:
       initContainers:
         - name: postgresql
           image: ${image.postgresql}
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
           command: [sh, -c, until psql; do sleep 2; done]
           env:
             - name: PGHOST

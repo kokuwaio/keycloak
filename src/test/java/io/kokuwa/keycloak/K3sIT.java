@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -79,6 +80,17 @@ public class K3sIT {
 				() -> assertEquals(loginFailedGrayc + 2, prometheus.loginErrors(kokuwa), "kokuwa loginFailed"),
 				() -> assertEquals(loginSuccessTest + 2, prometheus.logins(test), "test loginSuccess"),
 				() -> assertEquals(loginFailedTest + 1, prometheus.loginErrors(test), "test loginFailed"));
+
+		// wait for user metrics
+
+		var end = Instant.now().plusSeconds(90);
+		while (Instant.now().isBefore(end) && prometheus.users("test") == 0) {
+			prometheus.scrap();
+			assertDoesNotThrow(() -> Thread.sleep(1000));
+		}
+		assertEquals(1, prometheus.users("master"), "user count master");
+		assertEquals(2, prometheus.users("kokuwa"), "user count kokuwa");
+		assertEquals(2, prometheus.users("test"), "user count test");
 	}
 
 	@DisplayName("keycloak mail configured")

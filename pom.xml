@@ -74,7 +74,7 @@
 
 		<!-- dependencies -->
 
-		<version.io.kokuwa.keycloak.metrics>0.2.1</version.io.kokuwa.keycloak.metrics>
+		<version.io.kokuwa.keycloak.metrics>1.0.0</version.io.kokuwa.keycloak.metrics>
 		<version.io.kubernetes.client>18.0.0</version.io.kubernetes.client>
 		<version.org.junit.jupiter>5.9.2</version.org.junit.jupiter>
 		<version.org.keycloak>21.1.1</version.org.keycloak>

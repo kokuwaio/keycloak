@@ -14,6 +14,7 @@ configMapGenerator:
       - GF_SERVER_ROOT_URL=http://grafana.127.0.0.1.nip.io:8080
       - GF_DATABASE_TYPE=postgres
       - GF_DATABASE_HOST=postgresql
+      - GF_DATABASE_NAME=grafana
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_USERS_AUTO_ASSIGN_ORG_ROLE=Admin
       - GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION=true

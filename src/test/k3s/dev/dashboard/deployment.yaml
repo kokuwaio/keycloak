@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: kubernetes-dashboard
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: kubernetes-dashboard

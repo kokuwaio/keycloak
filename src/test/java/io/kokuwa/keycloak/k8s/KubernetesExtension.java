@@ -1,6 +1,7 @@
 package io.kokuwa.keycloak.k8s;
 
 import java.io.IOException;
+import java.util.Properties;
 
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -17,7 +18,15 @@ public class KubernetesExtension implements ParameterResolver, BeforeAllCallback
 
 	public Kubernetes kubernetes() {
 		if (kubernetes == null) {
-			var kubeconfig = System.getProperty("user.home") + "/.kube/k3s-maven-plugin/mount/kubeconfig.yaml";
+
+			var properties = new Properties();
+			try {
+				properties.load(getClass().getResourceAsStream("/k3s.properties"));
+			} catch (IOException e) {
+				throw new ParameterResolutionException("Failed to read properties", e);
+			}
+
+			var kubeconfig = properties.getProperty("kubeconfig");
 			try {
 				kubernetes = new Kubernetes(Config.fromConfig(kubeconfig));
 			} catch (IOException e) {

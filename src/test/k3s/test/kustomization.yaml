@@ -1,9 +1,5 @@
 resources:
-  - dashboard
-  - grafana
-  - help
   - keycloak
   - mailhog
   - postgresql
-  - prometheus
   - traefik

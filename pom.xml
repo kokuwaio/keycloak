@@ -50,6 +50,8 @@
 		<image.tag>snapshot</image.tag>
 		<image.tag.test>temurin</image.tag.test>
 
+		<k3s.kubeconfig>${project.build.directory}/k3s.yaml</k3s.kubeconfig>
+
 		<!-- ===================================================================== -->
 		<!-- ============================== Libaries ============================= -->
 		<!-- ===================================================================== -->
@@ -70,7 +72,7 @@
 		<version.com.puppycrawl.tools.checkstyle>10.10.0</version.com.puppycrawl.tools.checkstyle>
 		<version.io.github.git-commit-id>5.0.0</version.io.github.git-commit-id>
 		<version.io.kokuwa.checkstyle>0.5.6</version.io.kokuwa.checkstyle>
-		<version.io.kokuwa.maven.k3s>0.8.0</version.io.kokuwa.maven.k3s>
+		<version.io.kokuwa.maven.k3s>1.0.1</version.io.kokuwa.maven.k3s>
 
 		<!-- dependencies -->
 
@@ -82,13 +84,13 @@
 
 		<!-- images -->
 
-		<k3s.imageTag>v1.25.3-k3s1</k3s.imageTag>
+		<k3s.imageTag>v1.27.3-k3s1</k3s.imageTag>
 		<image.dashboard>kubernetesui/dashboard:v2.7.0</image.dashboard>
-		<image.grafana>grafana/grafana:9.2.3</image.grafana>
+		<image.grafana>grafana/grafana:10.0.1</image.grafana>
 		<image.mailhog>druidfi/mailhog:1.0.1</image.mailhog>
 		<image.postgresql>postgres:14.4</image.postgresql>
-		<image.prometheus>quay.io/prometheus/prometheus:v2.39.1</image.prometheus>
-		<image.traefik>traefik:v2.9</image.traefik>
+		<image.prometheus>quay.io/prometheus/prometheus:v2.45.0</image.prometheus>
+		<image.traefik>traefik:v2.10.3</image.traefik>
 
 	</properties>
 
@@ -172,6 +174,12 @@
 	</dependencies>
 
 	<build>
+		<testResources>
+			<testResource>
+				<directory>${project.basedir}/src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -339,10 +347,6 @@
 						<id>default-resources</id>
 						<phase />
 					</execution>
-					<execution>
-						<id>default-testResources</id>
-						<phase />
-					</execution>
 				</executions>
 			</plugin>
 
@@ -454,17 +458,16 @@
 				<executions>
 					<execution>
 						<goals>
-							<goal>create</goal>
-							<goal>start</goal>
+							<goal>run</goal>
 							<goal>image</goal>
-							<goal>kubectl</goal>
+							<goal>apply</goal>
 							<goal>rm</goal>
 						</goals>
 					</execution>
 				</executions>
 				<configuration>
-					<command>kubectl apply -k test</command>
 					<manifests>${project.build.directory}/k3s</manifests>
+					<subdir>test</subdir>
 					<portBindings>
 						<portBinding>8080:8080</portBinding>
 					</portBindings>
@@ -589,7 +592,7 @@
 						<groupId>io.kokuwa.maven</groupId>
 						<artifactId>k3s-maven-plugin</artifactId>
 						<configuration>
-							<command>kubectl apply -k dev</command>
+							<subdir>dev</subdir>
 						</configuration>
 					</plugin>
 				</plugins>

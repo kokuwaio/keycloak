@@ -44,17 +44,6 @@ jobs:
         with:
           dockerfile: src/main/docker/${{ matrix.context }}/Dockerfile
 
-  checkstyle:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-          distribution: temurin
-          java-version: 17
-          cache: maven
-      - run: mvn -B -ntp checkstyle:check
-
   verify:
     runs-on: ubuntu-latest
     if: ${{ github.ref != 'refs/heads/main' }}
@@ -69,7 +58,7 @@ jobs:
           distribution: temurin
           java-version: 17
           cache: maven
-      - run: mvn -B -ntp verify -Dimage.tag.test=${{ matrix.image }} -Dcheckstyle.skip -Dk3s.skipRm
+      - run: mvn -B -ntp verify -Dimage.tag.test=${{ matrix.image }} -Dk3s.skipRm
       - name: Run kubectl logs -l app.kubernetes.io/name=keycloak
         run: export KUBECONFIG=/home/runner/.kube/k3s-maven-plugin/mount/kubeconfig.yaml && kubectl logs -l app.kubernetes.io/name=keycloak --tail -1
         if: ${{ failure() }}

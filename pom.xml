@@ -2,6 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<parent>
+		<groupId>io.kokuwa.maven</groupId>
+		<artifactId>maven-parent</artifactId>
+		<version>0.6.10</version>
+		<relativePath/>
+	</parent>
+
 	<groupId>io.kokuwa.keycloak</groupId>
 	<artifactId>keycloak</artifactId>
 	<version>BUILD-SNAPSHOT</version>
@@ -16,19 +23,21 @@
 	</organization>
 	<licenses>
 		<license>
-			<name>Apache License 2.0</name>
-			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
+			<name>Apache-2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
 		</license>
 	</licenses>
 
 	<developers>
 		<developer>
-			<id>stephanschnabel</id>
+			<id>sschnabe</id>
 			<name>Stephan Schnabel</name>
 			<url>https://github.com/sschnabe</url>
 			<email>stephan@grayc.de</email>
 			<organization>GrayC GmbH</organization>
 			<organizationUrl>https://grayc.de</organizationUrl>
+			<timezone>Europe/Berlin</timezone>
 		</developer>
 	</developers>
 
@@ -38,13 +47,8 @@
 		<!-- =============================== Build =============================== -->
 		<!-- ===================================================================== -->
 
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-		<maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
-		<maven.compiler.showWarnings>true</maven.compiler.showWarnings>
-		<maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
 
 		<image.name>kokuwaio/keycloak</image.name>
 		<image.tag>snapshot</image.tag>
@@ -56,31 +60,12 @@
 		<!-- ============================== Libaries ============================= -->
 		<!-- ===================================================================== -->
 
-		<!-- plugins -->
-
-		<version.org.apache.maven.plugins.checkstyle>3.2.1</version.org.apache.maven.plugins.checkstyle>
-		<version.org.apache.maven.plugins.clean>3.2.0</version.org.apache.maven.plugins.clean>
-		<version.org.apache.maven.plugins.compiler>3.11.0</version.org.apache.maven.plugins.compiler>
-		<version.org.apache.maven.plugins.dependency>3.5.0</version.org.apache.maven.plugins.dependency>
-		<version.org.apache.maven.plugins.deploy>3.1.1</version.org.apache.maven.plugins.deploy>
-		<version.org.apache.maven.plugins.install>3.1.1</version.org.apache.maven.plugins.install>
-		<version.org.apache.maven.plugins.jar>3.3.0</version.org.apache.maven.plugins.jar>
-		<version.org.apache.maven.plugins.resources>3.3.1</version.org.apache.maven.plugins.resources>
-		<version.org.apache.maven.plugins.surefire>3.0.0</version.org.apache.maven.plugins.surefire>
-		<version.org.codehaus.mojo.exec>3.1.0</version.org.codehaus.mojo.exec>
-		<version.org.codehaus.mojo.tidy>1.2.0</version.org.codehaus.mojo.tidy>
-		<version.com.puppycrawl.tools.checkstyle>10.10.0</version.com.puppycrawl.tools.checkstyle>
-		<version.io.github.git-commit-id>5.0.0</version.io.github.git-commit-id>
-		<version.io.kokuwa.checkstyle>0.5.6</version.io.kokuwa.checkstyle>
-		<version.io.kokuwa.maven.k3s>1.0.1</version.io.kokuwa.maven.k3s>
-
 		<!-- dependencies -->
 
 		<version.io.kokuwa.keycloak.metrics>1.0.0</version.io.kokuwa.keycloak.metrics>
+		<version.io.kokuwa.maven.k3s>1.0.1</version.io.kokuwa.maven.k3s>
 		<version.io.kubernetes.client>18.0.0</version.io.kubernetes.client>
-		<version.org.junit.jupiter>5.9.2</version.org.junit.jupiter>
-		<version.org.keycloak>21.1.1</version.org.keycloak>
-		<version.org.slf4j>2.0.6</version.org.slf4j>
+		<version.org.keycloak>21.1.2</version.org.keycloak>
 
 		<!-- images -->
 
@@ -100,13 +85,10 @@
 			<!-- keycloak -->
 			<dependency>
 				<groupId>org.keycloak</groupId>
-				<artifactId>keycloak-admin-client</artifactId>
+				<artifactId>keycloak-quarkus-server</artifactId>
 				<version>${version.org.keycloak}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.keycloak</groupId>
-				<artifactId>keycloak-authz-client</artifactId>
-				<version>${version.org.keycloak}</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>io.kokuwa.keycloak</groupId>
@@ -119,23 +101,6 @@
 				<groupId>io.kubernetes</groupId>
 				<artifactId>client-java</artifactId>
 				<version>${version.io.kubernetes.client}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.junit</groupId>
-				<artifactId>junit-bom</artifactId>
-				<version>${version.org.junit.jupiter}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${version.org.slf4j}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-simple</artifactId>
-				<version>${version.org.slf4j}</version>
 			</dependency>
 
 		</dependencies>
@@ -165,11 +130,6 @@
 			<artifactId>junit-jupiter-api</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<scope>test</scope>
-		</dependency>
 
 	</dependencies>
 
@@ -182,90 +142,6 @@
 		</testResources>
 		<pluginManagement>
 			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-checkstyle-plugin</artifactId>
-					<version>${version.org.apache.maven.plugins.checkstyle}</version>
-					<configuration>
-						<configLocation>checkstyle.xml</configLocation>
-						<suppressionsLocation>checkstyle-suppression.xml</suppressionsLocation>
-						<includeTestSourceDirectory>true</includeTestSourceDirectory>
-					</configuration>
-					<dependencies>
-						<dependency>
-							<groupId>com.puppycrawl.tools</groupId>
-							<artifactId>checkstyle</artifactId>
-							<version>${version.com.puppycrawl.tools.checkstyle}</version>
-						</dependency>
-						<dependency>
-							<groupId>io.kokuwa</groupId>
-							<artifactId>maven-parent</artifactId>
-							<version>${version.io.kokuwa.checkstyle}</version>
-							<type>zip</type>
-							<classifier>checkstyle</classifier>
-						</dependency>
-					</dependencies>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-clean-plugin</artifactId>
-					<version>${version.org.apache.maven.plugins.clean}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>${version.org.apache.maven.plugins.compiler}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-dependency-plugin</artifactId>
-					<version>${version.org.apache.maven.plugins.dependency}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<version>${version.org.apache.maven.plugins.deploy}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>${version.org.apache.maven.plugins.surefire}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-install-plugin</artifactId>
-					<version>${version.org.apache.maven.plugins.install}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>${version.org.apache.maven.plugins.jar}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>${version.org.apache.maven.plugins.resources}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${version.org.apache.maven.plugins.surefire}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>exec-maven-plugin</artifactId>
-					<version>${version.org.codehaus.mojo.exec}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>tidy-maven-plugin</artifactId>
-					<version>${version.org.codehaus.mojo.tidy}</version>
-				</plugin>
-				<plugin>
-					<groupId>io.github.git-commit-id</groupId>
-					<artifactId>git-commit-id-maven-plugin</artifactId>
-					<version>${version.io.github.git-commit-id}</version>
-				</plugin>
 				<plugin>
 					<groupId>io.kokuwa.maven</groupId>
 					<artifactId>k3s-maven-plugin</artifactId>
@@ -380,7 +256,7 @@
 								<argument>build</argument>
 								<argument>--tag</argument>
 								<argument>${image.name}:${image.tag}-base</argument>
-								<argument>${project.build.directory}/docker/base</argument>
+								<argument>base</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -395,7 +271,7 @@
 								<argument>build</argument>
 								<argument>--tag</argument>
 								<argument>${image.name}:${image.tag}-temurin</argument>
-								<argument>${project.build.directory}/docker/temurin</argument>
+								<argument>temurin</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -410,7 +286,7 @@
 								<argument>build</argument>
 								<argument>--tag</argument>
 								<argument>${image.name}:${image.tag}-temurin-import</argument>
-								<argument>${project.build.directory}/docker/temurin-import</argument>
+								<argument>temurin-import</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -425,7 +301,7 @@
 								<argument>build</argument>
 								<argument>--tag</argument>
 								<argument>${image.name}:${image.tag}-distroless</argument>
-								<argument>${project.build.directory}/docker/distroless</argument>
+								<argument>distroless</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -440,14 +316,14 @@
 								<argument>build</argument>
 								<argument>--tag</argument>
 								<argument>${image.name}:${image.tag}-distroless-import</argument>
-								<argument>${project.build.directory}/docker/distroless-import</argument>
+								<argument>distroless-import</argument>
 							</arguments>
 						</configuration>
 					</execution>
 				</executions>
 				<configuration>
 					<executable>docker</executable>
-					<workingDirectory>${project.basedir}</workingDirectory>
+					<workingDirectory>${project.build.directory}/docker</workingDirectory>
 				</configuration>
 			</plugin>
 
@@ -497,31 +373,6 @@
 				</executions>
 			</plugin>
 
-			<!-- fail if any pom is dirty -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>tidy-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- fail if checkstyle reports problems -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 
 			<!-- disable jar/surefire/install -->
 			<plugin>
@@ -570,6 +421,46 @@
 				<executions>
 					<execution>
 						<id>default-deploy</id>
+						<phase />
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default</id>
+						<phase />
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default</id>
+						<phase />
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default</id>
+						<phase />
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default</id>
 						<phase />
 					</execution>
 				</executions>

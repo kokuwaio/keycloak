@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.ws.rs.NotAuthorizedException;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +23,7 @@ import io.kokuwa.keycloak.keycloak.OpenIDConnect;
 import io.kokuwa.keycloak.keycloak.Prometheus;
 import io.kokuwa.keycloak.mailhog.Mailhog;
 import io.kokuwa.keycloak.mailhog.MailhogExtension;
+import jakarta.ws.rs.NotAuthorizedException;
 
 @DisplayName("k3s")
 @ExtendWith(KeycloakExtension.class)

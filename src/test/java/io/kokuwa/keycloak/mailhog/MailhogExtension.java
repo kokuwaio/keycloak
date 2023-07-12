@@ -1,11 +1,11 @@
 package io.kokuwa.keycloak.mailhog;
 
-import javax.ws.rs.client.ClientBuilder;
-
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
+
+import jakarta.ws.rs.client.ClientBuilder;
 
 public class MailhogExtension implements ParameterResolver {
 

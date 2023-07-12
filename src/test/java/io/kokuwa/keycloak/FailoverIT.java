@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.stream.IntStream;
 
-import javax.ws.rs.NotAuthorizedException;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +13,7 @@ import io.kokuwa.keycloak.k8s.Kubernetes;
 import io.kokuwa.keycloak.k8s.KubernetesExtension;
 import io.kokuwa.keycloak.keycloak.KeycloakExtension;
 import io.kokuwa.keycloak.keycloak.OpenIDConnect;
+import jakarta.ws.rs.NotAuthorizedException;
 
 @DisplayName("failover")
 @ExtendWith(KubernetesExtension.class)

@@ -2,13 +2,13 @@ package io.kokuwa.keycloak.keycloak;
 
 import java.util.Set;
 
-import javax.ws.rs.client.ClientBuilder;
-
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.keycloak.admin.client.Keycloak;
+
+import jakarta.ws.rs.client.ClientBuilder;
 
 public class KeycloakExtension implements ParameterResolver {
 

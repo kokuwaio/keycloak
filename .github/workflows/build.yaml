@@ -35,7 +35,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GIT_ACTION_TOKEN }}
       - name: docker/metadata-action temurin
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         id: temurin
         with:
           images: |
@@ -55,7 +55,7 @@ jobs:
             ${{ env.major }}-temurin
             ${{ env.major }}-${{ env.timestamp }}-temurin
       - name: docker/metadata-action temurin-import
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         id: temurin-import
         with:
           images: |
@@ -75,7 +75,7 @@ jobs:
             ${{ env.major }}-temurin-import
             ${{ env.major }}-${{ env.timestamp }}-temurin-import
       - name: docker/metadata-action distroless
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         id: distroless
         with:
           images: |
@@ -89,7 +89,7 @@ jobs:
             ${{ env.major }}-distroless
             ${{ env.major }}-${{ env.timestamp }}-distroless
       - name: docker/metadata-action distroless-import
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         id: distroless-import
         with:
           images: |

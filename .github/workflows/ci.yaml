@@ -10,7 +10,7 @@ jobs:
   yaml:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ibiqlik/action-yamllint@v3
         with:
           format: colored
@@ -19,7 +19,7 @@ jobs:
   markdown:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: avto-dev/markdown-lint@v1
         with:
           args: /github/workspace
@@ -27,7 +27,7 @@ jobs:
   json:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: limitusus/json-syntax-check@v2.0.2
         with:
           pattern: \\.json$
@@ -39,7 +39,7 @@ jobs:
       matrix:
         context: [base, temurin, temurin-import, distroless, distroless-import]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: src/main/docker/${{ matrix.context }}/Dockerfile
@@ -52,7 +52,7 @@ jobs:
       matrix:
         image: [temurin, distroless]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-java@v3
         with:
           distribution: temurin

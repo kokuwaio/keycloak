@@ -49,6 +49,7 @@
 
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.failOnWarning>false</maven.compiler.failOnWarning>
 
 		<image.name>kokuwaio/keycloak</image.name>
 		<image.tag>snapshot</image.tag>
@@ -63,19 +64,19 @@
 		<!-- dependencies -->
 
 		<version.io.kokuwa.keycloak.metrics>1.0.0</version.io.kokuwa.keycloak.metrics>
-		<version.io.kokuwa.maven.k3s>1.0.1</version.io.kokuwa.maven.k3s>
-		<version.io.kubernetes.client>18.0.0</version.io.kubernetes.client>
+		<version.io.kokuwa.maven.k3s>1.2.4</version.io.kokuwa.maven.k3s>
+		<version.io.kubernetes.client>19.0.0</version.io.kubernetes.client>
 		<version.org.keycloak>22.0.5</version.org.keycloak>
 
 		<!-- images -->
 
-		<k3s.imageTag>v1.27.3-k3s1</k3s.imageTag>
+		<k3s.imageTag>v1.28.3-k3s2</k3s.imageTag>
 		<image.dashboard>kubernetesui/dashboard:v2.7.0</image.dashboard>
-		<image.grafana>grafana/grafana:10.0.1</image.grafana>
+		<image.grafana>grafana/grafana:10.2.2</image.grafana>
 		<image.mailhog>druidfi/mailhog:1.0.1</image.mailhog>
-		<image.postgresql>postgres:14.4</image.postgresql>
-		<image.prometheus>quay.io/prometheus/prometheus:v2.45.0</image.prometheus>
-		<image.traefik>traefik:v2.10.3</image.traefik>
+		<image.postgresql>postgres:14.10</image.postgresql>
+		<image.prometheus>quay.io/prometheus/prometheus:v2.48.0</image.prometheus>
+		<image.traefik>traefik:v2.10.6</image.traefik>
 
 	</properties>
 

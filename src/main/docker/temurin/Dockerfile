@@ -29,7 +29,7 @@ ENV \
   URI_METRICS_DETAILED=false \
   KC_PROXY=edge \
   KC_LOG_CONSOLE_COLOR=false \
-  KC_LOG_CONSOLE_OUTPUT=JSON
+  KC_LOG_CONSOLE_OUTPUT=json
 
 COPY cache-ispn.xml /tmp/keycloak-${version.org.keycloak}/conf/cache-ispn.xml
 COPY keycloak-event-metrics-${version.io.kokuwa.keycloak.metrics}.jar /app/providers/metrics-spi.jar

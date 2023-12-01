@@ -19,7 +19,7 @@ ENV \
   KC_DB=postgres \
   KC_CACHE=local \
   KC_LOG_CONSOLE_COLOR=false \
-  KC_LOG_CONSOLE_OUTPUT=JSON
+  KC_LOG_CONSOLE_OUTPUT=json
 
 RUN java -Dkc.home.dir=/app -jar /app/lib/quarkus-run.jar build
 ENTRYPOINT ["java","-XX:+ExitOnOutOfMemoryError","-jar","/app/lib/quarkus-run.jar"]

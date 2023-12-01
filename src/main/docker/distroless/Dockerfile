@@ -29,7 +29,7 @@ ENV \
   URI_METRICS_DETAILED=false \
   KC_PROXY=edge \
   KC_LOG_CONSOLE_COLOR=false \
-  KC_LOG_CONSOLE_OUTPUT=JSON
+  KC_LOG_CONSOLE_OUTPUT=json
 
 # hadolint ignore=DL3022
 COPY --from=kokuwaio/keycloak:${image.tag}-temurin /app /app

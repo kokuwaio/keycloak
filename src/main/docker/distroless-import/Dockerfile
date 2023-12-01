@@ -19,7 +19,7 @@ ENV \
   KC_DB=postgres \
   KC_CACHE=local \
   KC_LOG_CONSOLE_COLOR=false \
-  KC_LOG_CONSOLE_OUTPUT=JSON
+  KC_LOG_CONSOLE_OUTPUT=json
 
 # hadolint ignore=DL3022
 COPY --from=kokuwaio/keycloak:${image.tag}-temurin-import /app /app

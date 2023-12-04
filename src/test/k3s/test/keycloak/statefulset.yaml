@@ -49,8 +49,8 @@ spec:
               path: /health/live
               port: http
           securityContext:
-            runAsUser: 10001
-            runAsGroup: 10001
+            runAsUser: 1000
+            runAsGroup: 1000
             runAsNonRoot: true
             readOnlyRootFilesystem: true
             privileged: false
@@ -58,10 +58,15 @@ spec:
             capabilities:
               drop: [ALL]
           volumeMounts:
+            - name: data
+              mountPath: /app/data
             - name: tmp
               mountPath: /tmp
+      enableServiceLinks: false
       automountServiceAccountToken: false
       terminationGracePeriodSeconds: 10
       volumes:
+        - name: data
+          emptyDir: {}
         - name: tmp
           emptyDir: {}

@@ -169,13 +169,13 @@
 									<artifactId>keycloak-quarkus-dist</artifactId>
 									<version>${version.org.keycloak}</version>
 									<type>tar.gz</type>
-									<outputDirectory>${project.build.directory}/docker/base</outputDirectory>
+									<outputDirectory>${project.build.directory}/docker</outputDirectory>
 								</artifactItem>
 								<artifactItem>
 									<groupId>io.kokuwa.keycloak</groupId>
 									<artifactId>keycloak-event-metrics</artifactId>
 									<version>${version.io.kokuwa.keycloak.metrics}</version>
-									<outputDirectory>${project.build.directory}/docker/temurin</outputDirectory>
+									<outputDirectory>${project.build.directory}/docker</outputDirectory>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
@@ -247,21 +247,6 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>docker-base</id>
-						<phase>package</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>build</argument>
-								<argument>--tag</argument>
-								<argument>${image.name}:${image.tag}-base</argument>
-								<argument>base</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
 						<id>docker-temurin</id>
 						<phase>package</phase>
 						<goals>
@@ -270,9 +255,9 @@
 						<configuration>
 							<arguments>
 								<argument>build</argument>
-								<argument>--tag</argument>
-								<argument>${image.name}:${image.tag}-temurin</argument>
-								<argument>temurin</argument>
+								<argument>${project.build.directory}/docker</argument>
+								<argument>--tag=${image.name}:${image.tag}-temurin</argument>
+								<argument>--target=temurin</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -285,9 +270,9 @@
 						<configuration>
 							<arguments>
 								<argument>build</argument>
-								<argument>--tag</argument>
-								<argument>${image.name}:${image.tag}-temurin-import</argument>
-								<argument>temurin-import</argument>
+								<argument>${project.build.directory}/docker</argument>
+								<argument>--tag=${image.name}:${image.tag}-temurin-import</argument>
+								<argument>--target=temurin-import</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -300,9 +285,9 @@
 						<configuration>
 							<arguments>
 								<argument>build</argument>
-								<argument>--tag</argument>
-								<argument>${image.name}:${image.tag}-distroless</argument>
-								<argument>distroless</argument>
+								<argument>${project.build.directory}/docker</argument>
+								<argument>--tag=${image.name}:${image.tag}-distroless</argument>
+								<argument>--target=distroless</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -315,16 +300,15 @@
 						<configuration>
 							<arguments>
 								<argument>build</argument>
-								<argument>--tag</argument>
-								<argument>${image.name}:${image.tag}-distroless-import</argument>
-								<argument>distroless-import</argument>
+								<argument>${project.build.directory}/docker</argument>
+								<argument>--tag=${image.name}:${image.tag}-distroless-import</argument>
+								<argument>--target=distroless-import</argument>
 							</arguments>
 						</configuration>
 					</execution>
 				</executions>
 				<configuration>
 					<executable>docker</executable>
-					<workingDirectory>${project.build.directory}/docker</workingDirectory>
 				</configuration>
 			</plugin>
 

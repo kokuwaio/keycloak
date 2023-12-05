@@ -57,6 +57,21 @@ Tags:
 - all tags are available with suffix `-import` for realm import without cache
 - all tags are available with suffix `-temurin` or `-distroless` for specific base images
 
+## Sizes
+
+Created with [print-size.sh](/.github/print-size.sh): `.github/print-size.sh`
+
+| image                                                | uncompressed      | compressed        |
+|------------------------------------------------------|-------------------|-------------------|
+| quay.io/keycloak/keycloak:23.0.1                     | 459.018.503 bytes | 262.181.076 bytes |
+| docker.io/kokuwaio/keycloak:23.0.1                   | 446.125.014 bytes | 256.232.904 bytes |
+| docker.io/kokuwaio/keycloak:23.0.1-import            | 446.043.228 bytes | 256.160.692 bytes |
+| docker.io/kokuwaio/keycloak:23.0.1-distroless        | 403.345.214 bytes | 254.675.552 bytes |
+| docker.io/kokuwaio/keycloak:23.0.1-distroless-import | 403.263.428 bytes | 254.603.340 bytes |
+
+- `compressed`: size transfered from registry
+- `uncompressed`: size on disk
+
 ## Develop and testing
 
 Start k3s: `mvn pre-integration-test`

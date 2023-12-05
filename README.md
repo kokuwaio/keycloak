@@ -19,7 +19,7 @@ Keycloak container image for Kokuwa.
   - logs as json
   - ispn cache
 - preconfigured tag for realm import from directory `/realms` (see [job.yaml](/src/test/k3s/keycloak/job.yaml))
-- [integration test](/src/test/k3s) with [k3s](https://k3s.io/)
+- [integration test](/src/test/k3s) with [k3s](https://k3s.io/) and deployment of [example theme](/src/main/docker/themes/kokuwa)
 
 ## Why
 

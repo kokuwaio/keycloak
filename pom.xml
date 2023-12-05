@@ -306,6 +306,21 @@
 							</arguments>
 						</configuration>
 					</execution>
+					<execution>
+						<id>docker-themes</id>
+						<phase>package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<arguments>
+								<argument>build</argument>
+								<argument>${project.build.directory}/docker</argument>
+								<argument>--tag=${image.name}:${image.tag}-themes</argument>
+								<argument>--target=themes</argument>
+							</arguments>
+						</configuration>
+					</execution>
 				</executions>
 				<configuration>
 					<executable>docker</executable>
@@ -340,6 +355,7 @@
 					<dockerImages>
 						<dockerImage>${image.name}:${image.tag}-${image.tag.test}</dockerImage>
 						<dockerImage>${image.name}:${image.tag}-${image.tag.test}-import</dockerImage>
+						<dockerImage>${image.name}:${image.tag}-themes</dockerImage>
 					</dockerImages>
 				</configuration>
 			</plugin>

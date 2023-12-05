@@ -162,3 +162,11 @@ ENV KC_DB=postgres KC_CACHE=local KC_LOG_CONSOLE_OUTPUT=json
 COPY --from=keycloak-import /app /app
 ENTRYPOINT ["java", "-XX:+ExitOnOutOfMemoryError", "-Dkc.home.dir=/app", "-jar", "/app/lib/quarkus-run.jar"]
 CMD ["import", "--dir=/realms"]
+
+###
+### Themes
+###
+
+FROM docker.io/library/debian:stable-slim AS themes
+
+COPY themes /themes

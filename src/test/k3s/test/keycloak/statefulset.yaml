@@ -18,6 +18,23 @@ spec:
         prometheus.io/port: "8080"
         prometheus.io/path: /realms/master/metrics
     spec:
+      initContainers:
+        - name: keycloak-themes
+          image: ${image.name}:${image.tag}-themes
+          imagePullPolicy: Never
+          command: [cp, -r, /themes/kokuwa, /app/themes]
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            privileged: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+          volumeMounts:
+            - name: themes
+              mountPath: /app/themes
       containers:
         - name: keycloak
           image: ${image.name}:${image.tag}-${image.tag.test}
@@ -60,6 +77,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /app/data
+            - name: themes
+              mountPath: /app/themes
             - name: tmp
               mountPath: /tmp
       enableServiceLinks: false
@@ -67,6 +86,8 @@ spec:
       terminationGracePeriodSeconds: 10
       volumes:
         - name: data
+          emptyDir: {}
+        - name: themes
           emptyDir: {}
         - name: tmp
           emptyDir: {}

@@ -2,6 +2,7 @@
 	"id": "kokuwa-id",
 	"enabled": true,
 	"realm": "kokuwa",
+	"loginTheme": "kokuwa",
 	"attributes": {
 		"frontendUrl": "http://auth.kokuwa.127.0.0.1.nip.io:8080"
 	},

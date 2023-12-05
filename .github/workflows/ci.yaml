@@ -34,15 +34,11 @@ jobs:
 
   dockerfile:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        context: [base, temurin, temurin-import, distroless, distroless-import]
     steps:
       - uses: actions/checkout@v4
       - uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: src/main/docker/${{ matrix.context }}/Dockerfile
+          dockerfile: src/main/docker/Dockerfile
 
   verify:
     runs-on: ubuntu-latest

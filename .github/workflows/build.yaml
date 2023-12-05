@@ -19,7 +19,7 @@ jobs:
       - run: echo "timestamp=`date +"%Y%m%d-%H%M%S"`" >> $GITHUB_ENV
       - run: echo "version=`mvn help:evaluate -Dexpression=version.org.keycloak -DforceStdout -q`" >> $GITHUB_ENV
       - run: echo "major=`mvn help:evaluate -Dexpression=version.org.keycloak -DforceStdout -q | cut -d. -f1`" >> $GITHUB_ENV
-      - run: mvn -B -ntp prepare-package -Dimage.tag=${{ env.version }}-${{ env.timestamp }}
+      - run: mvn -B -ntp prepare-package -Dcheck.skip -Dimage.tag=${{ env.version }}-${{ env.timestamp }}
       - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
       - name: docker/login-action docker.io
@@ -102,38 +102,35 @@ jobs:
             ${{ env.version }}-${{ env.timestamp }}-distroless-import
             ${{ env.major }}-distroless-import
             ${{ env.major }}-${{ env.timestamp }}-distroless-import
-      - name: docker/build-push-action base
-        uses: docker/build-push-action@v5
-        with:
-          context: target/docker/base
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: docker.io/kokuwaio/keycloak:${{ env.version }}-${{ env.timestamp }}-base
       - name: docker/build-push-action temurin
         uses: docker/build-push-action@v5
         with:
-          context: target/docker/temurin
+          context: target/docker
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.temurin.outputs.tags }}
+          target: temurin
       - name: docker/build-push-action temurin-import
         uses: docker/build-push-action@v5
         with:
-          context: target/docker/temurin-import
+          context: target/docker
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.temurin-import.outputs.tags }}
+          target: temurin-import
       - name: docker/build-push-action distroless
         uses: docker/build-push-action@v5
         with:
-          context: target/docker/distroless
+          context: target/docker
           push: true
           platforms: linux/amd64
           tags: ${{ steps.distroless.outputs.tags }}
+          target: distroless
       - name: docker/build-push-action distroless-import
         uses: docker/build-push-action@v5
         with:
-          context: target/docker/distroless-import
+          context: target/docker
           push: true
           platforms: linux/amd64
           tags: ${{ steps.distroless-import.outputs.tags }}
+          target: distroless-import

@@ -16,7 +16,7 @@ spec:
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
-        prometheus.io/path: /realms/master/metrics
+        prometheus.io/path: /metrics
     spec:
       initContainers:
         - name: keycloak-themes

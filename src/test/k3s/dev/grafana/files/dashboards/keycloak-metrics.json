@@ -1,26 +1,8 @@
 {
-  "annotations": {
-    "list": [
-      {
-        "builtIn": 1,
-        "datasource": {
-          "type": "grafana",
-          "uid": "-- Grafana --"
-        },
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "type": "dashboard"
-      }
-    ]
-  },
-  "description": "Dashboard of Keycloak metrics exported with Keycloak Metrics SPI\r\n\r\nhttps://github.com/aerogear/keycloak-metrics-spi",
+  "description": "Dashboard of Keycloak metrics exported with Keycloak Metrics SPI",
   "editable": true,
-  "fiscalYearStartMonth": 0,
   "gnetId": 10441,
   "graphTooltip": 2,
-  "id": 2,
   "links": [
     {
       "asDropdown": false,
@@ -295,8 +277,7 @@
       {
         "current": {
           "selected": false,
-          "text": "Prometheus",
-          "value": "PBFA97CFB590B2093"
+          "text": "Prometheus"
         },
         "hide": 2,
         "includeAll": false,
@@ -322,7 +303,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "${Datasource}"
         },
         "definition": "label_values(realm)",
         "hide": 0,
@@ -1207,9 +1188,7 @@
       "30d"
     ]
   },
-  "timezone": "",
   "title": "Keycloak Metrics",
   "uid": "keycloak-metrics",
-  "version": 1,
-  "weekStart": ""
+  "version": 1
 }

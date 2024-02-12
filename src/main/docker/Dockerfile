@@ -16,9 +16,7 @@ ENV \
   KC_METRICS_EVENT_REPLACE_IDS=true \
   KC_METRICS_STATS_ENABLED=true \
   URI_METRICS_ENABLED=false \
-  URI_METRICS_DETAILED=false \
-  KC_PROXY=edge \
-  KC_LOG_CONSOLE_OUTPUT=json
+  URI_METRICS_DETAILED=false
 COPY --from=keycloak /app /app
 COPY cache-ispn.xml /app/conf/cache-ispn.xml
 COPY keycloak-event-metrics-${version.io.kokuwa.keycloak.metrics}.jar /app/providers/metrics-spi.jar

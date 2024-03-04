@@ -11,6 +11,8 @@
 			"id": "kokuwa-admin-id",
 			"enabled": true,
 			"username": "admin",
+			"firstName": "firstName",
+			"lastName": "lastName",
 			"email": "admin@example.org",
 			"credentials": [ { "type": "password", "value": "password" } ],
 			"clientRoles": { "realm-management": [ "realm-admin" ] }
@@ -18,6 +20,8 @@
 			"id": "kokuwa-horst-id",
 			"enabled": true,
 			"username": "horst",
+			"firstName": "firstName",
+			"lastName": "lastName",
 			"email": "horst@example.org",
 			"credentials": [ { "type": "password", "value": "password" } ]
 		}

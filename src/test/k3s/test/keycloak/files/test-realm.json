@@ -10,6 +10,8 @@
 			"id": "test-admin-id",
 			"enabled": true,
 			"username": "admin",
+			"firstName": "firstName",
+			"lastName": "lastName",
 			"email": "admin@example.org",
 			"credentials": [ { "type": "password", "value": "password" } ],
 			"clientRoles": { "realm-management": [ "realm-admin" ] }
@@ -17,6 +19,8 @@
 			"id": "test-horst-id",
 			"enabled": true,
 			"username": "horst",
+			"firstName": "firstName",
+			"lastName": "lastName",
 			"email": "horst@example.org",
 			"credentials": [ { "type": "password", "value": "password" } ]
 		}

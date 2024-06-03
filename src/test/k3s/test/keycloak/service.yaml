@@ -7,6 +7,9 @@ spec:
     - name: http
       port: 80
       targetPort: http
+    - name: cache
+      port: 11222
+      targetPort: cache
   selector:
     app.kubernetes.io/name: keycloak
 ---

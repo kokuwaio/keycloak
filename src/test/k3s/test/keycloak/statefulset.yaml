@@ -49,6 +49,8 @@ spec:
           ports:
             - name: http
               containerPort: 8080
+            - name: cache
+              containerPort: 11222
           startupProbe:
             httpGet:
               path: /health

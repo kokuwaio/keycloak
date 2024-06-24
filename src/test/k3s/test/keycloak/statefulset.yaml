@@ -49,10 +49,12 @@ spec:
           ports:
             - name: http
               containerPort: 8080
+            - name: management
+              containerPort: 9000
           startupProbe:
             httpGet:
               path: /health
-              port: http
+              port: management
             initialDelaySeconds: 1
             periodSeconds: 1
             successThreshold: 1
@@ -60,11 +62,11 @@ spec:
           readinessProbe:
             httpGet:
               path: /health/ready
-              port: http
+              port: management
           livenessProbe:
             httpGet:
               path: /health/live
-              port: http
+              port: management
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000

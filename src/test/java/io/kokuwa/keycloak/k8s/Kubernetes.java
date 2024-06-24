@@ -9,7 +9,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.kokuwa.keycloak.FailoverIT;
 import io.kubernetes.client.custom.V1Patch;
 import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.ApiException;
@@ -22,7 +21,7 @@ public class Kubernetes {
 	public static final String KEYCLOAK_NAME = "keycloak";
 	public static final int KEYCLOAK_REPLICAS = 3;
 
-	private final Logger log = LoggerFactory.getLogger(FailoverIT.class);
+	private final Logger log = LoggerFactory.getLogger(Kubernetes.class);
 	private final AppsV1Api appApi;
 
 	Kubernetes(ApiClient client) {

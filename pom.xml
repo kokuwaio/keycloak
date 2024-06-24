@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>io.kokuwa.maven</groupId>
 		<artifactId>maven-parent</artifactId>
-		<version>0.6.15</version>
+		<version>0.6.16</version>
 		<relativePath/>
 	</parent>
 
@@ -64,7 +64,7 @@
 		<!-- dependencies -->
 
 		<version.io.kokuwa.keycloak.metrics>1.0.0</version.io.kokuwa.keycloak.metrics>
-		<version.io.kokuwa.maven.k3s>1.2.4</version.io.kokuwa.maven.k3s>
+		<version.io.kokuwa.maven.k3s>1.3.0</version.io.kokuwa.maven.k3s>
 		<version.io.kubernetes.client>19.0.0</version.io.kubernetes.client>
 		<version.org.keycloak>25.0.1</version.org.keycloak>
 
@@ -346,6 +346,7 @@
 					<subdir>test</subdir>
 					<portBindings>
 						<portBinding>8080:8080</portBinding>
+						<portBinding>9000:9000</portBinding>
 					</portBindings>
 					<ctrImages>
 						<ctrImage>${image.mailhog}</ctrImage>
@@ -373,7 +374,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 
 			<!-- disable jar/surefire/install -->
 			<plugin>

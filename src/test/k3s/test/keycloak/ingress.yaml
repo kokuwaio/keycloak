@@ -13,14 +13,14 @@ spec:
               service:
                 name: keycloak
                 port:
-                  name: http
+                  name: management
           - path: /health
             pathType: Prefix
             backend:
               service:
                 name: keycloak
                 port:
-                  name: http
+                  name: management
           - path: /admin
             pathType: Prefix
             backend:

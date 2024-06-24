@@ -7,8 +7,11 @@ resources:
 configMapGenerator:
   - name: keycloak-config
     literals:
-      - KC_HOSTNAME_STRICT=false
-      - KC_HOSTNAME_STRICT_HTTPS=false
+      - KC_HOSTNAME=http://keycloak.127.0.0.1.nip.io
+      - KC_HOSTNAME_DEBUG=true
+      - KC_HOSTNAME_BACKCHANNEL_DYNAMIC=true
+      - KC_PROXY_HEADERS=xforwarded
+      - KC_LOG_CONSOLE_OUTPUT=default
   - name: keycloak-realms
     files:
       - files/kokuwa-realm.json

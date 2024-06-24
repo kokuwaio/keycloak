@@ -5,25 +5,14 @@ RUN mv "/tmp/keycloak-$VERSION" /app && rm -rf /app/bin/client /app/bin/*.bat
 
 FROM docker.io/eclipse-temurin:${maven.compiler.target}-jre AS keycloak-runtime
 # https://www.keycloak.org/server/all-config
-ENV \
-  KC_DB=postgres \
-  KC_CACHE=ispn \
-  KC_CACHE_STACK=kubernetes \
-  KC_CACHE_DNS=keycloak-headless \
-  KC_CACHE_OWNERS=2 \
-  KC_HEALTH_ENABLED=true \
-  KC_METRICS_ENABLED=true \
-  KC_METRICS_EVENT_REPLACE_IDS=true \
-  KC_METRICS_STATS_ENABLED=true \
-  URI_METRICS_ENABLED=false \
-  URI_METRICS_DETAILED=false
+ENV KC_DB=postgres KC_HEALTH_ENABLED=true KC_METRICS_ENABLED=true
 COPY --from=keycloak /app /app
 COPY cache-ispn.xml /app/conf/cache-ispn.xml
 COPY keycloak-event-metrics-${version.io.kokuwa.keycloak.metrics}.jar /app/providers/metrics-spi.jar
 RUN java -Dkc.home.dir=/app -jar /app/lib/quarkus-run.jar build
 
 FROM docker.io/eclipse-temurin:${maven.compiler.target}-jre AS keycloak-import
-ENV KC_DB=postgres KC_CACHE=local KC_LOG_CONSOLE_OUTPUT=json
+ENV KC_DB=postgres
 COPY --from=keycloak /app /app
 RUN java -Dkc.home.dir=/app -jar /app/lib/quarkus-run.jar build
 
@@ -50,6 +39,8 @@ LABEL org.opencontainers.image.base.name   docker.io/eclipse-temurin:${maven.com
 # https://www.keycloak.org/server/all-config
 ENV \
   KC_DB=postgres \
+  KC_HTTP_ENABLED=true \
+  KC_HTTP_METRICS_HISTOGRAMS_ENABLED=true \
   KC_CACHE=ispn \
   KC_CACHE_STACK=kubernetes \
   KC_CACHE_DNS=keycloak-headless \
@@ -58,9 +49,6 @@ ENV \
   KC_METRICS_ENABLED=true \
   KC_METRICS_EVENT_REPLACE_IDS=true \
   KC_METRICS_STATS_ENABLED=true \
-  URI_METRICS_ENABLED=false \
-  URI_METRICS_DETAILED=false \
-  KC_PROXY=edge \
   KC_LOG_CONSOLE_OUTPUT=json
 
 COPY --from=keycloak-runtime /app /app
@@ -117,6 +105,8 @@ LABEL org.opencontainers.image.base.name   gcr.io/distroless/java${maven.compile
 # https://www.keycloak.org/server/all-config
 ENV \
   KC_DB=postgres \
+  KC_HTTP_ENABLED=true \
+  KC_HTTP_METRICS_HISTOGRAMS_ENABLED=true \
   KC_CACHE=ispn \
   KC_CACHE_STACK=kubernetes \
   KC_CACHE_DNS=keycloak-headless \
@@ -125,9 +115,6 @@ ENV \
   KC_METRICS_ENABLED=true \
   KC_METRICS_EVENT_REPLACE_IDS=true \
   KC_METRICS_STATS_ENABLED=true \
-  URI_METRICS_ENABLED=false \
-  URI_METRICS_DETAILED=false \
-  KC_PROXY=edge \
   KC_LOG_CONSOLE_OUTPUT=json
 
 COPY --from=keycloak-runtime /app /app

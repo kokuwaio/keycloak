@@ -56,6 +56,8 @@ spec:
             capabilities:
               drop: [ALL]
           volumeMounts:
+            - name: data
+              mountPath: /app/data
             - name: tmp
               mountPath: /tmp
             - name: realms
@@ -64,6 +66,8 @@ spec:
       automountServiceAccountToken: false
       terminationGracePeriodSeconds: 2
       volumes:
+        - name: data
+          emptyDir: {}
         - name: tmp
           emptyDir: {}
         - name: realms

@@ -66,7 +66,7 @@
 		<version.io.kokuwa.keycloak.metrics>1.1.1</version.io.kokuwa.keycloak.metrics>
 		<version.io.kokuwa.maven.k3s>1.3.0</version.io.kokuwa.maven.k3s>
 		<version.io.kubernetes.client>19.0.0</version.io.kubernetes.client>
-		<version.org.keycloak>26.0.8</version.org.keycloak>
+		<version.org.keycloak>26.2.4</version.org.keycloak>
 
 		<!-- images -->
 

@@ -1,0 +1,53 @@
+when:
+  event: [manual, pull_request]
+  path: [.woodpecker/verify.yaml, Dockerfile, pom.xml, src/**]
+
+services:
+  - name: dockerd
+    image: kokuwaio/dockerd:28.2.2
+    privileged: true
+    ports: [2375, 6443, 8080]
+
+steps:
+
+  image:
+    image: kokuwaio/docker-cli:28.2.2
+    commands:
+      - docker buildx create --use --name=buildkit --driver=remote --driver-opt=default-load=true $BUILDKIT_HOST
+      - docker buildx build . --platform=amd64,arm64 --target=debian     --tag=kokuwaio/keycloak:dev-debian
+      - docker buildx build . --platform=amd64,arm64 --target=temurin    --tag=kokuwaio/keycloak:dev-temurin
+      - docker buildx build . --platform=amd64       --target=distroless --tag=kokuwaio/keycloak:dev-distroless
+      - docker buildx build . --platform=amd64       --target=themes     --tag=kokuwaio/keycloak:dev-themes
+    environment:
+      # because of .netrc cannot be written to /woodpecker
+      HOME: /woodpecker/src/git.kokuwa.io/kokuwaio/keycloak
+
+  maven:
+    image: maven:3.9.11-eclipse-temurin-17
+    commands: mvn verify --settings=.woodpecker/maven/settings.xml -Dk3s.skipImage -Dk3s.skipApply -DskipITs
+
+  test-debian:
+    image: maven:3.9.11-eclipse-temurin-17
+    commands: mvn verify --settings=.woodpecker/maven/settings.xml -Dk3s.ip=$(getent hosts dockerd|awk '{print $1}') -Ddocker.target=debian
+
+  test-temurin:
+    image: maven:3.9.11-eclipse-temurin-17
+    commands: mvn verify --settings=.woodpecker/maven/settings.xml -Dk3s.ip=$(getent hosts dockerd|awk '{print $1}') -Ddocker.target=temurin
+
+  test-distroless:
+    image: maven:3.9.11-eclipse-temurin-17
+    commands: mvn verify --settings=.woodpecker/maven/settings.xml -Dk3s.ip=$(getent hosts dockerd|awk '{print $1}') -Ddocker.target=distroless
+
+  errors:
+    image: kokuwaio/docker-cli:28.2.2
+    commands:
+      - docker logs k3s-maven-plugin
+      - docker exec k3s-maven-plugin kubectl get all --all-namespaces --output=wide
+      - docker exec k3s-maven-plugin ls /var/log/containers
+      - docker exec k3s-maven-plugin sh -c 'cat `find /var/log/containers -name keycloak-*_keycloak-*.log`'
+      - docker exec k3s-maven-plugin kubectl logs deployment/keycloak --container=keycloak --previous
+    environment:
+      # because of .netrc cannot be written to /woodpecker
+      HOME: /woodpecker/src/git.kokuwa.io/kokuwaio/keycloak
+    when:
+      status: failure

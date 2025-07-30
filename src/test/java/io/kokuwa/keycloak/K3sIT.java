@@ -11,23 +11,21 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import jakarta.ws.rs.NotAuthorizedException;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.keycloak.admin.client.Keycloak;
 
-import io.kokuwa.keycloak.k8s.Kubernetes;
-import io.kokuwa.keycloak.k8s.KubernetesExtension;
 import io.kokuwa.keycloak.keycloak.KeycloakExtension;
 import io.kokuwa.keycloak.keycloak.OpenIDConnect;
 import io.kokuwa.keycloak.keycloak.Prometheus;
 import io.kokuwa.keycloak.mailhog.Mailhog;
 import io.kokuwa.keycloak.mailhog.MailhogExtension;
-import jakarta.ws.rs.NotAuthorizedException;
 
 @DisplayName("k3s")
 @ExtendWith(KeycloakExtension.class)
-@ExtendWith(KubernetesExtension.class)
 @ExtendWith(MailhogExtension.class)
 public class K3sIT {
 
@@ -41,11 +39,8 @@ public class K3sIT {
 
 	@DisplayName("keycloak metrics is working")
 	@Test
-	void metrics(Keycloak keycloak, Kubernetes kubernetes, OpenIDConnect oidc, Prometheus prometheus) {
+	void metrics(Keycloak keycloak, OpenIDConnect oidc, Prometheus prometheus) {
 
-		// expect only one keycloak to get metrics from
-
-		kubernetes.scaleKeycloak(1);
 		prometheus.scrap();
 
 		// get state before test
@@ -98,7 +93,7 @@ public class K3sIT {
 
 		// purge all emails
 
-		mailhog.deleteMessages();
+		mailhog.deleteMessages(TestProperties.IP);
 
 		// trigger password refresh
 
@@ -108,17 +103,20 @@ public class K3sIT {
 
 		// check for email in greenmail
 
-		var mails = mailhog.getMessages();
+		var mails = mailhog.getMessages(TestProperties.IP);
 		assertEquals(1, mails.getTotal(), "total mails");
 		var mail = mails.getItems().get(0);
 		assertAll("mail: " + mail,
 				() -> assertEquals("noreply", mail.getFrom().getMailbox(), "from.mailbox"),
-				() -> assertEquals("kokuwa.127.0.0.1.nip.io", mail.getFrom().getDomain(), "from.domain"),
+				() -> assertEquals("kokuwa." + TestProperties.IP + ".nip.io", mail.getFrom().getDomain(),
+						"from.domain"),
 				() -> assertEquals("admin", mail.getTo().get(0).getMailbox(), "from.mailbox"),
 				() -> assertEquals("example.org", mail.getTo().get(0).getDomain(), "from.domain"),
 				() -> assertEquals("Update Your Account", mail.getContent().getHeaders().get("Subject").get(0), "sub"),
 				() -> assertTrue(mail.getRaw().getData().contains("This link will expire within 12 hours."), "expire"),
-				() -> assertTrue(mail.getRaw().getData()
-						.contains("http://auth.kokuwa.127.0.0.1.nip.io:8080/realms/kokuwa/login-actions"), "link"));
+				() -> assertTrue(
+						mail.getRaw().getData().contains(
+								"http://auth.kokuwa." + TestProperties.IP + ".nip.io:8080/realms/kokuwa/login-actions"),
+						"link"));
 	}
 }

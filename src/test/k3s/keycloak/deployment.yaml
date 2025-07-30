@@ -1,0 +1,132 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+spec:
+  progressDeadlineSeconds: 900
+  minReadySeconds: 10
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: keycloak
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: keycloak
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: /metrics
+    spec:
+      initContainers:
+        - name: keycloak-themes
+          image: kokuwaio/keycloak:dev-themes
+          imagePullPolicy: Never
+          securityContext:
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            privileged: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+          volumeMounts:
+            - name: themes
+              mountPath: /opt/keycloak/themes
+        - name: wait-for-postgres
+          image: postgres:<patched>
+          imagePullPolicy: IfNotPresent
+          command: [sh, -c, until echo "`date '+%T'` connect psql ..." && psql && echo "`date '+%T'` ... connected"; do sleep 1 ; done]
+          env:
+            - name: PGHOST
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-database
+                  key: KC_DB_URL_HOST
+            - name: PGDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-database
+                  key: KC_DB_URL_DATABASE
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-database
+                  key: KC_DB_USERNAME
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-database
+                  key: KC_DB_PASSWORD
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            privileged: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+      containers:
+        - name: keycloak
+          image: kokuwaio/keycloak:dev-${docker.target}
+          imagePullPolicy: Never
+          args: [start, --optimized, --import-realm, --verbose]
+          envFrom:
+            - configMapRef:
+                name: keycloak-config
+            - secretRef:
+                name: keycloak-database
+            - secretRef:
+                name: keycloak-admin
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: management
+              containerPort: 9000
+          startupProbe:
+            httpGet:
+              path: /health
+              port: management
+            initialDelaySeconds: 10
+            periodSeconds: 1
+            successThreshold: 1
+            failureThreshold: 600
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: management
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: management
+          securityContext:
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            privileged: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+          volumeMounts:
+            - name: themes
+              mountPath: /opt/keycloak/themes
+              readOnly: true
+            - name: realms
+              mountPath: /opt/keycloak/data/import
+              readOnly: true
+            - name: tmp
+              mountPath: /opt/keycloak/data/tmp
+            - name: tmp
+              mountPath: /tmp
+      enableServiceLinks: false
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 10
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: themes
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
+        - name: realms
+          configMap:
+            name: keycloak-realms

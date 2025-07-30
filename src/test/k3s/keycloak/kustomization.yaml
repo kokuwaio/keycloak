@@ -1,0 +1,28 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+
+configMapGenerator:
+  - name: keycloak-config
+    literals:
+      - KC_HOSTNAME=http://keycloak.${k3s.ip}.nip.io:8080
+      - KC_HOSTNAME_DEBUG=true
+      - KC_HOSTNAME_BACKCHANNEL_DYNAMIC=true
+      - KC_LOG_CONSOLE_OUTPUT=default
+  - name: keycloak-realms
+    files:
+      - files/kokuwa-realm.json
+      - files/test-realm.json
+
+secretGenerator:
+  - name: keycloak-database
+    literals:
+      - KC_DB_URL_HOST=postgres.default.svc.cluster.local
+      - KC_DB_URL_DATABASE=keycloak
+      - KC_DB_USERNAME=keycloak
+      - KC_DB_PASSWORD=changeMe
+  - name: keycloak-admin
+    literals:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=password

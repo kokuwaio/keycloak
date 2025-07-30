@@ -1,6 +1,0 @@
-resources:
-  - ../test
-  - dashboard
-  - grafana
-  - help
-  - prometheus

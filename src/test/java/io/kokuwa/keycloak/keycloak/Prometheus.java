@@ -9,6 +9,8 @@ import java.util.stream.Stream;
 
 import org.keycloak.representations.idm.RealmRepresentation;
 
+import io.kokuwa.keycloak.TestProperties;
+
 /**
  * Client to access Prometheus metric values:
  *
@@ -51,7 +53,7 @@ public class Prometheus {
 
 	public void scrap() {
 		state.clear();
-		Stream.of(client.scrap().split("[\\r\\n]+"))
+		Stream.of(client.scrap(TestProperties.IP).split("[\\r\\n]+"))
 				.filter(line -> !line.startsWith("#"))
 				.filter(line -> line.startsWith("keycloak"))
 				.map(line -> {

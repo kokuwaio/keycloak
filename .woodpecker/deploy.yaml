@@ -1,0 +1,88 @@
+when:
+  instance: ci.kokuwa.io
+  repo: kokuwaio/keycloak
+  event: [manual, push]
+  branch: main
+  path: [.woodpecker/deploy.yaml, README.md, Dockerfile]
+
+steps:
+
+  debian: &image
+    depends_on: []
+    image: kokuwaio/buildctl:v0.23.2
+    settings: &settings
+      name:
+        - registry.kokuwa.io/kokuwaio/keycloak
+        - registry.kokuwa.io/kokuwaio/keycloak:debian
+        - registry.kokuwa.io/kokuwaio/keycloak:26.2.2
+        - registry.kokuwa.io/kokuwaio/keycloak:26.2.2-debian
+        - docker.io/kokuwaio/keycloak
+        - docker.io/kokuwaio/keycloak:debian
+        - docker.io/kokuwaio/keycloak:26.2.2
+        - docker.io/kokuwaio/keycloak:26.2.2-debian
+        - ghcr.io/kokuwaio/keycloak
+        - ghcr.io/kokuwaio/keycloak:debian
+        - ghcr.io/kokuwaio/keycloak:26.2.2
+        - ghcr.io/kokuwaio/keycloak:26.2.2-debian
+      target: debian
+      platform: [linux/amd64, linux/arm64]
+      auth:
+        "https://index.docker.io/v1/":
+          username: {from_secret: docker_io_username}
+          password: {from_secret: docker_io_password}
+        ghcr.io:
+          username: {from_secret: ghcr_io_username}
+          password: {from_secret: ghcr_io_password}
+        registry.kokuwa.io:
+          username: {from_secret: kokuwa_io_username}
+          password: {from_secret: kokuwa_io_password}
+      annotation:
+        org.opencontainers.image.title: Keycloak
+        org.opencontainers.image.description: Keycloak container image for Kokuwa.
+        org.opencontainers.image.url: $CI_REPO_URL
+        org.opencontainers.image.documentation: $CI_REPO_URL/README.md
+        org.opencontainers.image.source: $CI_REPO_CLONE_URL
+        org.opencontainers.image.revision: $CI_COMMIT_SHA
+        org.opencontainers.image.vendor: kokuwa.io
+        org.opencontainers.image.licenses: EUPL-1.2
+        org.opencontainers.image.ref.name: kokuwaio/keycloak
+        org.opencontainers.image.version: 26.2.2
+    when: [path: [.woodpecker/deploy.yaml, Dockerfile]]
+
+  temurin:
+    <<: *image
+    settings:
+      <<: *settings
+      name:
+        - registry.kokuwa.io/kokuwaio/keycloak:temurin
+        - registry.kokuwa.io/kokuwaio/keycloak:26.2.2-temurin
+        - docker.io/kokuwaio/keycloak:temurin
+        - docker.io/kokuwaio/keycloak:26.2.2-temurin
+        - ghcr.io/kokuwaio/keycloak:temurin
+        - ghcr.io/kokuwaio/keycloak:26.2.2-temurin
+      target: temurin
+
+  distroless:
+    <<: *image
+    settings:
+      <<: *settings
+      name:
+        - registry.kokuwa.io/kokuwaio/keycloak:distroless
+        - registry.kokuwa.io/kokuwaio/keycloak:26.2.2-distroless
+        - docker.io/kokuwaio/keycloak:distroless
+        - docker.io/kokuwaio/keycloak:26.2.2-distroless
+        - ghcr.io/kokuwaio/keycloak:distroless
+        - ghcr.io/kokuwaio/keycloak:26.2.2-distroless
+      target: distroless
+      platform: [linux/amd64]
+
+  dockerhub:
+    depends_on: []
+    image: kokuwaio/dockerhub-metadata
+    settings:
+      repository: kokuwaio/keycloak
+      description-short: Keycloak container image for Kokuwa.
+      categories: [developer-tools, integration-and-delivery]
+      username: {from_secret: dockerhub_username}
+      password: {from_secret: dockerhub_password}
+    when: [path: [.woodpecker/deploy.yaml, README.md]]

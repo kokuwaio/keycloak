@@ -2,18 +2,20 @@ package io.kokuwa.keycloak.keycloak;
 
 import java.util.Set;
 
+import jakarta.ws.rs.client.ClientBuilder;
+
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.keycloak.admin.client.Keycloak;
 
-import jakarta.ws.rs.client.ClientBuilder;
+import io.kokuwa.keycloak.TestProperties;
 
 public class KeycloakExtension implements ParameterResolver {
 
 	private static final Keycloak keycloak = Keycloak.getInstance(
-			"http://keycloak.127.0.0.1.nip.io:8080",
+			"http://keycloak." + TestProperties.IP + ".nip.io:8080",
 			"master",
 			"admin",
 			"password",

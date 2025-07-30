@@ -3,23 +3,24 @@ package io.kokuwa.keycloak.mailhog;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("http://mail.127.0.0.1.nip.io:8080")
+@Path("http://mail.{ip}.nip.io:8080")
 public interface Mailhog {
 
 	@Path("/api/v1/messages")
 	@DELETE
-	void deleteMessages();
+	void deleteMessages(@PathParam("ip") String ip);
 
 	@Path("/api/v2/messages")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	MessagesVO getMessages();
+	MessagesVO getMessages(@PathParam("ip") String ip);
 
 	@Path("/api/v2/messages")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	String getMessagess();
+	String getMessagess(@PathParam("ip") String ip);
 }

@@ -2,20 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>io.kokuwa.maven</groupId>
-		<artifactId>maven-parent</artifactId>
-		<version>0.6.18</version>
-		<relativePath/>
-	</parent>
-
 	<groupId>io.kokuwa.keycloak</groupId>
 	<artifactId>keycloak</artifactId>
-	<version>BUILD-SNAPSHOT</version>
+	<version>LOCAL-SNAPSHOT</version>
 
 	<name>Keycloak</name>
 	<description>Keycloak packaged for Kubernetes</description>
-	<url>https://github.com/kokuwaio/keycloak</url>
+	<url>https://git.kokuwa.io/kokuwaio/keycloak</url>
 	<inceptionYear>2022</inceptionYear>
 	<organization>
 		<name>Kokuwa.io</name>
@@ -23,100 +16,56 @@
 	</organization>
 	<licenses>
 		<license>
-			<name>Apache-2.0</name>
-			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<name>EUPL-1.2</name>
+			<url>https://eupl.eu/1.2/en</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
 
 	<developers>
 		<developer>
-			<id>sschnabe</id>
+			<id>stephan.schnabel</id>
 			<name>Stephan Schnabel</name>
-			<url>https://github.com/sschnabe</url>
-			<email>stephan@grayc.de</email>
-			<organization>GrayC GmbH</organization>
-			<organizationUrl>https://grayc.de</organizationUrl>
+			<url>https://schnabel.org</url>
+			<email>stephan@schnabel.org</email>
 			<timezone>Europe/Berlin</timezone>
 		</developer>
 	</developers>
 
+	<scm>
+		<url>https://git.kokuwa.io/kokuwaio/keycloak</url>
+		<connection>scm:git:https://git.kokuwa.io/kokuwaio/keycloak.git</connection>
+	</scm>
+	<issueManagement>
+		<system>forgejo</system>
+		<url>https://git.kokuwa.io/kokuwaio/keycloak/issues</url>
+	</issueManagement>
+	<ciManagement>
+		<system>woodpecker</system>
+		<url>https://ci.kokuwa.io/repos/kokuwaio/keycloak</url>
+	</ciManagement>
+
 	<properties>
-
-		<!-- ===================================================================== -->
-		<!-- =============================== Build =============================== -->
-		<!-- ===================================================================== -->
-
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
-		<maven.compiler.failOnWarning>false</maven.compiler.failOnWarning>
-
-		<image.name>kokuwaio/keycloak</image.name>
-		<image.tag>snapshot</image.tag>
-		<image.tag.test>temurin</image.tag.test>
-
-		<k3s.kubeconfig>${project.build.directory}/k3s.yaml</k3s.kubeconfig>
-
-		<!-- ===================================================================== -->
-		<!-- ============================== Libaries ============================= -->
-		<!-- ===================================================================== -->
-
-		<!-- dependencies -->
-
-		<version.io.kokuwa.keycloak.metrics>1.1.1</version.io.kokuwa.keycloak.metrics>
-		<version.io.kokuwa.maven.k3s>1.3.0</version.io.kokuwa.maven.k3s>
-		<version.io.kubernetes.client>19.0.0</version.io.kubernetes.client>
-		<version.org.keycloak>26.2.2</version.org.keycloak>
-
-		<!-- images -->
-
-		<k3s.imageTag>v1.28.3-k3s2</k3s.imageTag>
-		<image.dashboard>kubernetesui/dashboard:v2.7.0</image.dashboard>
-		<image.grafana>grafana/grafana:10.2.2</image.grafana>
-		<image.mailhog>druidfi/mailhog:1.0.1</image.mailhog>
-		<image.postgresql>postgres:14.10</image.postgresql>
-		<image.prometheus>quay.io/prometheus/prometheus:v2.48.0</image.prometheus>
-		<image.traefik>traefik:v2.10.6</image.traefik>
-
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.release>17</maven.compiler.release>
+		<docker.target>debian</docker.target>
+		<k3s.ip>127.0.0.1</k3s.ip>
+		<k3s.kubeconfig>${project.basedir}/k3s.yaml</k3s.kubeconfig>
 	</properties>
 
-	<dependencyManagement>
-		<dependencies>
-
-			<!-- keycloak -->
-			<dependency>
-				<groupId>org.keycloak</groupId>
-				<artifactId>keycloak-quarkus-server</artifactId>
-				<version>${version.org.keycloak}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>io.kokuwa.keycloak</groupId>
-				<artifactId>keycloak-event-metrics</artifactId>
-				<version>${version.io.kokuwa.keycloak.metrics}</version>
-			</dependency>
-
-			<!-- test -->
-			<dependency>
-				<groupId>io.kubernetes</groupId>
-				<artifactId>client-java</artifactId>
-				<version>${version.io.kubernetes.client}</version>
-			</dependency>
-
-		</dependencies>
-	</dependencyManagement>
 	<dependencies>
 
 		<!-- keycloak -->
 		<dependency>
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-admin-client</artifactId>
+			<version>26.0.6</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-authz-client</artifactId>
+			<version>26.0.6</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -124,17 +73,26 @@
 		<dependency>
 			<groupId>io.kubernetes</groupId>
 			<artifactId>client-java</artifactId>
+			<version>24.0.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.13.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>2.0.17</version>
 			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
 
 	<build>
+		<defaultGoal>verify</defaultGoal>
 		<testResources>
 			<testResource>
 				<directory>${project.basedir}/src/test/resources</directory>
@@ -144,44 +102,79 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.14.0</version>
+					<configuration>
+						<compilerArgument>-Xlint:all</compilerArgument>
+						<failOnWarning>true</failOnWarning>
+						<showWarnings>true</showWarnings>
+						<showDeprecation>true</showDeprecation>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>3.1.4</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>3.4.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.3.1</version>
+					<configuration>
+						<propertiesEncoding>ISO-8859-1</propertiesEncoding>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>3.5.3</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>3.5.3</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>exec-maven-plugin</artifactId>
+					<version>3.5.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>tidy-maven-plugin</artifactId>
+					<version>1.4.0</version>
+				</plugin>
+				<plugin>
+					<groupId>net.revelc.code.formatter</groupId>
+					<artifactId>formatter-maven-plugin</artifactId>
+					<version>2.27.0</version>
+					<configuration>
+						<configFile>${project.basedir}/src/eclipse/formatter.xml</configFile>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>net.revelc.code</groupId>
+					<artifactId>impsort-maven-plugin</artifactId>
+					<version>1.12.0</version>
+					<configuration>
+						<removeUnused>true</removeUnused>
+						<groups>java.,javax.,jakarta.,org.</groups>
+					</configuration>
+				</plugin>
+				<plugin>
 					<groupId>io.kokuwa.maven</groupId>
 					<artifactId>k3s-maven-plugin</artifactId>
-					<version>${version.io.kokuwa.maven.k3s}</version>
+					<version>2.0.1</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
-
-			<!-- get artifacts for docker image -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.keycloak</groupId>
-									<artifactId>keycloak-quarkus-dist</artifactId>
-									<version>${version.org.keycloak}</version>
-									<type>tar.gz</type>
-									<outputDirectory>${project.build.directory}/docker</outputDirectory>
-								</artifactItem>
-								<artifactItem>
-									<groupId>io.kokuwa.keycloak</groupId>
-									<artifactId>keycloak-event-metrics</artifactId>
-									<version>${version.io.kokuwa.keycloak.metrics}</version>
-									<outputDirectory>${project.build.directory}/docker</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 
 			<!-- copy docker/k3s -->
 			<plugin>
@@ -189,23 +182,6 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>docker</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<resources>
-								<resource>
-									<directory>${project.basedir}/src/main/docker</directory>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-							<outputDirectory>${project.build.directory}/docker</outputDirectory>
-						</configuration>
-					</execution>
-					<execution>
-						<id>k3s</id>
 						<phase>pre-integration-test</phase>
 						<goals>
 							<goal>copy-resources</goal>
@@ -227,106 +203,6 @@
 				</executions>
 			</plugin>
 
-			<!-- create container -->
-			<plugin>
-				<groupId>io.github.git-commit-id</groupId>
-				<artifactId>git-commit-id-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>revision</goal>
-						</goals>
-						<configuration>
-							<generateGitPropertiesFile>false</generateGitPropertiesFile>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>docker-temurin</id>
-						<phase>package</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>build</argument>
-								<argument>${project.build.directory}/docker</argument>
-								<argument>--tag=${image.name}:${image.tag}-temurin</argument>
-								<argument>--target=temurin</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>docker-temurin-import</id>
-						<phase>package</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>build</argument>
-								<argument>${project.build.directory}/docker</argument>
-								<argument>--tag=${image.name}:${image.tag}-temurin-import</argument>
-								<argument>--target=temurin-import</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>docker-distroless</id>
-						<phase>package</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>build</argument>
-								<argument>${project.build.directory}/docker</argument>
-								<argument>--tag=${image.name}:${image.tag}-distroless</argument>
-								<argument>--target=distroless</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>docker-distroless-import</id>
-						<phase>package</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>build</argument>
-								<argument>${project.build.directory}/docker</argument>
-								<argument>--tag=${image.name}:${image.tag}-distroless-import</argument>
-								<argument>--target=distroless-import</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>docker-themes</id>
-						<phase>package</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<arguments>
-								<argument>build</argument>
-								<argument>${project.build.directory}/docker</argument>
-								<argument>--tag=${image.name}:${image.tag}-themes</argument>
-								<argument>--target=themes</argument>
-							</arguments>
-						</configuration>
-					</execution>
-				</executions>
-				<configuration>
-					<executable>docker</executable>
-				</configuration>
-			</plugin>
-
 			<!-- handle k3s lifecycle -->
 			<plugin>
 				<groupId>io.kokuwa.maven</groupId>
@@ -342,20 +218,14 @@
 					</execution>
 				</executions>
 				<configuration>
+					<imageTag>v1.33.3-k3s1</imageTag>
 					<manifests>${project.build.directory}/k3s</manifests>
-					<subdir>test</subdir>
 					<portBindings>
 						<portBinding>8080:8080</portBinding>
 					</portBindings>
-					<ctrImages>
-						<ctrImage>${image.mailhog}</ctrImage>
-						<ctrImage>${image.postgresql}</ctrImage>
-						<ctrImage>${image.traefik}</ctrImage>
-					</ctrImages>
 					<dockerImages>
-						<dockerImage>${image.name}:${image.tag}-${image.tag.test}</dockerImage>
-						<dockerImage>${image.name}:${image.tag}-${image.tag.test}-import</dockerImage>
-						<dockerImage>${image.name}:${image.tag}-themes</dockerImage>
+						<dockerImage>docker.io/kokuwaio/keycloak:dev-${docker.target}</dockerImage>
+						<dockerImage>docker.io/kokuwaio/keycloak:dev-themes</dockerImage>
 					</dockerImages>
 				</configuration>
 			</plugin>
@@ -374,96 +244,26 @@
 				</executions>
 			</plugin>
 
-			<!-- disable jar/surefire/install -->
+			<!-- disable default executions -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default-compile</id>
-						<phase />
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default-jar</id>
-						<phase />
-					</execution>
-				</executions>
+				<executions><execution><id>default-compile</id><phase /></execution></executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default-test</id>
-						<phase />
-					</execution>
-				</executions>
+				<executions><execution><id>default-test</id><phase /></execution></executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions><execution><id>default-jar</id><phase /></execution></executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-install-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default-install</id>
-						<phase />
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default-deploy</id>
-						<phase />
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default</id>
-						<phase />
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default</id>
-						<phase />
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>flatten-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default</id>
-						<phase />
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default</id>
-						<phase />
-					</execution>
-				</executions>
+				<executions><execution><id>default-install</id><phase /></execution></executions>
 			</plugin>
 
 		</plugins>
@@ -471,7 +271,7 @@
 
 	<profiles>
 		<profile>
-			<id>dev</id>
+			<id>docker</id>
 			<activation>
 				<property>
 					<name>!env.CI</name>
@@ -480,11 +280,136 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>io.kokuwa.maven</groupId>
-						<artifactId>k3s-maven-plugin</artifactId>
-						<configuration>
-							<subdir>dev</subdir>
-						</configuration>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>docker-${docker.target}</id>
+								<phase>package</phase>
+								<goals><goal>exec</goal></goals>
+								<configuration>
+									<executable>docker</executable>
+									<arguments>
+										<argument>build</argument>
+										<argument>${project.basedir}</argument>
+										<argument>--tag=kokuwaio/keycloak:dev-${docker.target}</argument>
+										<argument>--target=${docker.target}</argument>
+										<argument>--quiet</argument>
+									</arguments>
+								</configuration>
+							</execution>
+							<execution>
+								<id>docker-themes</id>
+								<phase>package</phase>
+								<goals><goal>exec</goal></goals>
+								<configuration>
+									<executable>docker</executable>
+									<arguments>
+										<argument>build</argument>
+										<argument>${project.basedir}</argument>
+										<argument>--tag=kokuwaio/keycloak:dev-themes</argument>
+										<argument>--target=themes</argument>
+										<argument>--quiet</argument>
+									</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>format</id>
+			<activation>
+				<property>
+					<name>!env.CI</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>tidy-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>validate</phase>
+								<goals>
+									<goal>pom</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>net.revelc.code</groupId>
+						<artifactId>impsort-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>validate</phase>
+								<goals>
+									<goal>sort</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>net.revelc.code.formatter</groupId>
+						<artifactId>formatter-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>validate</phase>
+								<goals>
+									<goal>format</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>check</id>
+			<activation>
+				<property>
+					<name>env.CI</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>tidy-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>validate</phase>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>net.revelc.code</groupId>
+						<artifactId>impsort-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>validate</phase>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>net.revelc.code.formatter</groupId>
+						<artifactId>formatter-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>validate</phase>
+								<goals>
+									<goal>validate</goal>
+								</goals>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>

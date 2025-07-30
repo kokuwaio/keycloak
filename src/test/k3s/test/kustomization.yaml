@@ -1,5 +1,0 @@
-resources:
-  - keycloak
-  - mailhog
-  - postgresql
-  - traefik

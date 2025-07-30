@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+	<interactiveMode>false</interactiveMode>
+	<localRepository>/woodpecker/.m2</localRepository>
+
+	<mirrors>
+		<mirror>
+			<url>http://mirror.woodpecker.svc.cluster.local/maven2</url>
+			<mirrorOf>central</mirrorOf>
+		</mirror>
+	</mirrors>
+
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<k3s.registries>${env.CI_WORKSPACE}/.woodpecker/maven/registries.yaml</k3s.registries>
+				<k3s.timeout>900</k3s.timeout>
+				<k3s.skipRm>true</k3s.skipRm>
+				<k3s.failIfExists>false</k3s.failIfExists>
+				<k3s.clusterDns>10.53.0.10</k3s.clusterDns>
+				<k3s.clusterCidr>10.52.0.0/16</k3s.clusterCidr>
+				<k3s.serviceCidr>10.53.0.0/16</k3s.serviceCidr>
+			</properties>
+		</profile>
+	</profiles>
+</settings>

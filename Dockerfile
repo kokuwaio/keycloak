@@ -16,7 +16,7 @@ FROM build AS java
 SHELL ["/bin/bash", "-u", "-e", "-o", "pipefail", "-c"]
 ARG TARGETARCH
 ARG JAVA_VERSION=jdk-17.0.8+7
-RUN --mount=type=cache,target=/build \
+RUN --mount=type=cache,target=/build,sharing=private \
 	--mount=type=cache,target=/root \
 	--mount=type=tmpfs,target=/tmp \
 	[[ $TARGETARCH == amd64 ]] && export ARCH=x64; \
@@ -34,7 +34,7 @@ RUN --mount=type=cache,target=/build \
 	tar --extract --file="OpenJDK17U-jre_${ARCH}_linux_hotspot_${JAVA_VERSION/+/_}.tar.gz" --directory=/opt/java --strip-components=1 --exclude=NOTICE --exclude=legal --exclude=man --exclude=release
 
 FROM build AS keycloak
-RUN --mount=type=cache,target=/build \
+RUN --mount=type=cache,target=/build,sharing=private \
 	--mount=type=cache,target=/root \
 	--mount=type=tmpfs,target=/tmp \
 	wget --quiet --no-hsts --no-clobber \
@@ -48,7 +48,7 @@ RUN --mount=type=cache,target=/build \
 	tar -xf keycloak-quarkus-dist-26.2.2.tar.gz --directory=/opt/keycloak/ --strip-components=1 --exclude=**/*.md --exclude=**/*.txt --exclude=**/*.bat
 
 FROM build AS metrics
-RUN --mount=type=cache,target=/build \
+RUN --mount=type=cache,target=/build,sharing=private \
 	--mount=type=cache,target=/root \
 	--mount=type=tmpfs,target=/tmp \
 	wget --quiet --no-hsts --no-clobber \

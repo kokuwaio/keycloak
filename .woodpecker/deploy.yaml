@@ -8,7 +8,6 @@ when:
 steps:
 
   debian: &image
-    depends_on: []
     image: kokuwaio/buildctl:v0.23.2
     settings: &settings
       name:
@@ -77,7 +76,6 @@ steps:
       platform: [linux/amd64]
 
   dockerhub:
-    depends_on: []
     image: kokuwaio/dockerhub-metadata
     settings:
       repository: kokuwaio/keycloak

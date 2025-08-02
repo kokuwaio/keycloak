@@ -1,4 +1,35 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["kokuwaio/renovate-config"]
+	"extends": ["kokuwaio/renovate-config"],
+	"packageRules": [
+		{
+			"groupName": "org.keycloak:keycloak-client",
+			"matchPackageNames": ["org.keycloak:keycloak-authz-client", "org.keycloak:keycloak-admin-client"]
+		}
+	],
+	"customManagers": [
+		{
+			"customType": "regex",
+			"managerFilePatterns": ["Dockerfile"],
+			"matchStrings": ["JAVA_VERSION=(?<currentValue>.*)"],
+			"datasourceTemplate": "github-releases",
+			"packageNameTemplate": "adoptium/temurin17-binaries"
+		},{
+			"customType": "regex",
+			"managerFilePatterns": ["Dockerfile", ".woodpecker/deploy.yaml"],
+			"matchStrings": [
+				"keycloak-quarkus-dist(\\-|\\/)(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)",
+				"kokuwaio/keycloak:(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)",
+				"version: (?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"
+			],
+			"datasourceTemplate": "maven",
+			"packageNameTemplate": "org.keycloak:keycloak-quarkus-dist"
+		},{
+			"customType": "regex",
+			"managerFilePatterns": ["Dockerfile"],
+			"matchStrings": ["keycloak-event-metrics(\\-|\\/)(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"],
+			"datasourceTemplate": "maven",
+			"packageNameTemplate": "io.kokuwa.keycloak:keycloak-event-metrics"
+		}
+	]
 }

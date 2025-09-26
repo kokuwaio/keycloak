@@ -10,4 +10,4 @@ images:
   - name: traefik:<patched>
     newTag: v3.5.3@sha256:0bc3095d18449443ccda03c16751e09db6cbffe0526c8b96a3b1e777bc2a6bd1
   - name: postgres:<patched>
-    newTag: 17.6@sha256:0b6428e8c09651398137d2b3308a6ad87e73ac15fc38729891c16d942e947d3d
+    newTag: 17.6@sha256:cecd364cc7ec03ab6148ab650efc5200548a89fd2e4f47a8ba6e6cf08c18805d

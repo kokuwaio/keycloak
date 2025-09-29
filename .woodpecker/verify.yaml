@@ -11,7 +11,7 @@ services:
 steps:
 
   image:
-    image: kokuwaio/docker-cli:28.2.2
+    image: kokuwaio/docker-cli:28.4.0
     commands:
       - docker buildx create --use --name=buildkit --driver=remote --driver-opt=default-load=true $BUILDKIT_HOST
       - docker buildx build . --platform=amd64,arm64 --target=debian     --tag=kokuwaio/keycloak:dev-debian
@@ -39,7 +39,7 @@ steps:
     commands: mvn verify --settings=.woodpecker/maven/settings.xml -Dk3s.ip=$(getent hosts dockerd|awk '{print $1}') -Ddocker.target=distroless
 
   errors:
-    image: kokuwaio/docker-cli:28.2.2
+    image: kokuwaio/docker-cli:28.4.0
     commands:
       - docker logs k3s-maven-plugin
       - docker exec k3s-maven-plugin kubectl get all --all-namespaces --output=wide

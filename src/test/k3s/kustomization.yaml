@@ -8,6 +8,6 @@ images:
   - name: druidfi/mailhog:<patched>
     newTag: 1.0.1@sha256:90f36413627ee6d1b9d23ad8177df79671a5786836e6c77bf8560796011e440b
   - name: traefik:<patched>
-    newTag: v3.5.3@sha256:84eb6c0e67c99fa026bf1bf4b0afd9ad44350d375b4ebc5049c5f70543a729d6
+    newTag: v3.5.3@sha256:1068909886d16a655a321bbeb7c4bd07acf07bcd9f1b60533f5a35d56661a575
   - name: postgres:<patched>
     newTag: 17.6@sha256:e6a4209d1a4893f2df3bdcde58f8926c3c929c4d51df90990ed1b36d83c1382a

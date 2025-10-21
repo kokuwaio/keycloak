@@ -2,7 +2,7 @@
 ## Download and preconfigure
 ##
 
-FROM docker.io/library/debian:13.1-slim@sha256:1caf1c703c8f7e15dcf2e7769b35000c764e6f50e4d7401c355fb0248f3ddfdb AS build
+FROM docker.io/library/debian:13.1-slim@sha256:66b37a5078a77098bfc80175fb5eb881a3196809242fd295b25502854e12cbec AS build
 WORKDIR /build
 # hadolint ignore=DL3008
 RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
@@ -73,7 +73,7 @@ RUN /opt/java/bin/java -Dkc.home.dir=/opt/keycloak -jar /opt/keycloak/lib/quarku
 ## Debian
 ##
 
-FROM docker.io/library/debian:13.1-slim@sha256:1caf1c703c8f7e15dcf2e7769b35000c764e6f50e4d7401c355fb0248f3ddfdb AS debian
+FROM docker.io/library/debian:13.1-slim@sha256:66b37a5078a77098bfc80175fb5eb881a3196809242fd295b25502854e12cbec AS debian
 COPY --link --from=java /opt/java /opt/java
 COPY --link --from=keycloak-runtime /opt/keycloak /opt/keycloak
 ENV \
@@ -134,7 +134,7 @@ USER 1000:1000
 ## Themes
 ##
 
-FROM docker.io/library/debian:13.1-slim@sha256:1caf1c703c8f7e15dcf2e7769b35000c764e6f50e4d7401c355fb0248f3ddfdb AS themes
+FROM docker.io/library/debian:13.1-slim@sha256:66b37a5078a77098bfc80175fb5eb881a3196809242fd295b25502854e12cbec AS themes
 COPY src/themes /themes
 ENTRYPOINT ["cp", "-r", "/themes", "/opt/keycloak/themes/"]
 USER 1000:1000

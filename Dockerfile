@@ -38,14 +38,14 @@ RUN --mount=type=cache,target=/build,sharing=private \
 	--mount=type=cache,target=/root \
 	--mount=type=tmpfs,target=/tmp \
 	wget --quiet --no-hsts --no-clobber \
-		https://repo1.maven.org/maven2/org/keycloak/keycloak-quarkus-dist/26.4.1/keycloak-quarkus-dist-26.4.1.tar.gz  \
-		https://repo1.maven.org/maven2/org/keycloak/keycloak-quarkus-dist/26.4.1/keycloak-quarkus-dist-26.4.1.tar.gz.sha1 \
-		https://repo1.maven.org/maven2/org/keycloak/keycloak-quarkus-dist/26.4.1/keycloak-quarkus-dist-26.4.1.tar.gz.asc && \
-	echo "$(cat keycloak-quarkus-dist-26.4.1.tar.gz.sha1) keycloak-quarkus-dist-26.4.1.tar.gz" sha1sum --quiet --check --strict - && \
+		https://repo1.maven.org/maven2/org/keycloak/keycloak-quarkus-dist/26.4.2/keycloak-quarkus-dist-26.4.2.tar.gz  \
+		https://repo1.maven.org/maven2/org/keycloak/keycloak-quarkus-dist/26.4.2/keycloak-quarkus-dist-26.4.2.tar.gz.sha1 \
+		https://repo1.maven.org/maven2/org/keycloak/keycloak-quarkus-dist/26.4.2/keycloak-quarkus-dist-26.4.2.tar.gz.asc && \
+	echo "$(cat keycloak-quarkus-dist-26.4.2.tar.gz.sha1) keycloak-quarkus-dist-26.4.2.tar.gz" sha1sum --quiet --check --strict - && \
 	gpg --keyserver keyserver.ubuntu.com --recv-keys 861AB50E8CC6611FB6BC01A6B8F12EA26FD6EEBA && \
-	gpg --verify keycloak-quarkus-dist-26.4.1.tar.gz.asc keycloak-quarkus-dist-26.4.1.tar.gz && \
+	gpg --verify keycloak-quarkus-dist-26.4.2.tar.gz.asc keycloak-quarkus-dist-26.4.2.tar.gz && \
 	mkdir /opt/keycloak && \
-	tar -xf keycloak-quarkus-dist-26.4.1.tar.gz --directory=/opt/keycloak/ --strip-components=1 --exclude=**/*.md --exclude=**/*.txt --exclude=**/*.bat
+	tar -xf keycloak-quarkus-dist-26.4.2.tar.gz --directory=/opt/keycloak/ --strip-components=1 --exclude=**/*.md --exclude=**/*.txt --exclude=**/*.bat
 
 FROM build AS metrics
 RUN --mount=type=cache,target=/build,sharing=private \

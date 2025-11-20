@@ -5,6 +5,10 @@
 		{
 			"groupName": "org.keycloak:keycloak-client",
 			"matchPackageNames": ["org.keycloak:keycloak-authz-client", "org.keycloak:keycloak-admin-client"]
+		},{
+			"description": ["disable update for testing dependencies"],
+			"matchFileNames": ["src/test/k3s/**"],
+			"enabled": false
 		}
 	],
 	"customManagers": [

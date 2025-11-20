@@ -19,6 +19,7 @@
   - quarkus metrics enabled
   - keycloak metrics enabled (see [keycloak-event-metrics](https://git.kokuwa.io/kokuwaio/keycloak-event-metrics)) with model names
   - logs as json
+  - run with uid:gid 1000:1000
 - [integration test](src/test/k3s) with [k3s](https://k3s.io/) and deployment of [example theme](src/themes/kokuwa)
 
 ## Why
@@ -30,11 +31,12 @@ Use this image if you intend to:
 1. use Keycloak in Quarkus version, not Wildfly version
 1. use PostgeSQL as backend
 1. no need for [auto-build](https://www.keycloak.org/server/configuration#_the_auto_build_option_automatic_detection_when_the_server_needs_a_build) for faster startup
+1. run Keycloak not as `root`
 
 ## Alternatives
 
-| Image                                                                      | amd64 | arm64 |
-| -------------------------------------------------------------------------- |:-----:|:-----:|
+| Image                                                                      |                                                                     amd64                                                                      |                                                                     arm64                                                                      |
+| -------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------: |
 | [kokuwaio/keycloak:debian](https://hub.docker.com/r/kokuwaio/keycloak)     | [![size](https://img.shields.io/docker/image-size/kokuwaio/keycloak/debian?arch=amd64&label=)](https://hub.docker.com/r/kokuwaio/keycloak)     | [![size](https://img.shields.io/docker/image-size/kokuwaio/keycloak/debian?arch=arm64&label=)](https://hub.docker.com/r/kokuwaio/keycloak)     |
 | [kokuwaio/keycloak:temurin](https://hub.docker.com/r/kokuwaio/keycloak)    | [![size](https://img.shields.io/docker/image-size/kokuwaio/keycloak/temurin?arch=amd64&label=)](https://hub.docker.com/r/kokuwaio/keycloak)    | [![size](https://img.shields.io/docker/image-size/kokuwaio/keycloak/temurin?arch=arm64&label=)](https://hub.docker.com/r/kokuwaio/keycloak)    |
 | [kokuwaio/keycloak:distroless](https://hub.docker.com/r/kokuwaio/keycloak) | [![size](https://img.shields.io/docker/image-size/kokuwaio/keycloak/distroless?arch=amd64&label=)](https://hub.docker.com/r/kokuwaio/keycloak) | [![size](https://img.shields.io/docker/image-size/kokuwaio/keycloak/distroless?arch=arm64&label=)](https://hub.docker.com/r/kokuwaio/keycloak) |

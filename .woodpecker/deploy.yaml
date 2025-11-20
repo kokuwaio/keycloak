@@ -8,7 +8,7 @@ when:
 steps:
 
   debian: &image
-    image: kokuwaio/buildctl:v0.26.1
+    image: kokuwaio/buildctl:v0.26.2
     settings: &settings
       name:
         - registry.kokuwa.io/kokuwaio/keycloak

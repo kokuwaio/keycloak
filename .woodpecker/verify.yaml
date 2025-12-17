@@ -23,19 +23,19 @@ steps:
       HOME: /woodpecker/src/git.kokuwa.io/kokuwaio/keycloak
 
   maven:
-    image: maven:3.9.11-eclipse-temurin-17
+    image: maven:3.9.12-eclipse-temurin-17
     commands: mvn verify --settings=.woodpecker/maven/settings.xml -Dk3s.skipImage -Dk3s.skipApply -DskipITs
 
   test-debian:
-    image: maven:3.9.11-eclipse-temurin-17
+    image: maven:3.9.12-eclipse-temurin-17
     commands: mvn verify --settings=.woodpecker/maven/settings.xml -Dk3s.ip=$(getent hosts dockerd|awk '{print $1}') -Ddocker.target=debian
 
   test-temurin:
-    image: maven:3.9.11-eclipse-temurin-17
+    image: maven:3.9.12-eclipse-temurin-17
     commands: mvn verify --settings=.woodpecker/maven/settings.xml -Dk3s.ip=$(getent hosts dockerd|awk '{print $1}') -Ddocker.target=temurin
 
   test-distroless:
-    image: maven:3.9.11-eclipse-temurin-17
+    image: maven:3.9.12-eclipse-temurin-17
     commands: mvn verify --settings=.woodpecker/maven/settings.xml -Dk3s.ip=$(getent hosts dockerd|awk '{print $1}') -Ddocker.target=distroless
 
   errors:

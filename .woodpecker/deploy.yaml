@@ -13,16 +13,16 @@ steps:
       name:
         - registry.kokuwa.io/kokuwaio/keycloak
         - registry.kokuwa.io/kokuwaio/keycloak:debian
-        - registry.kokuwa.io/kokuwaio/keycloak:26.5.0
-        - registry.kokuwa.io/kokuwaio/keycloak:26.5.0-debian
+        - registry.kokuwa.io/kokuwaio/keycloak:26.5.1
+        - registry.kokuwa.io/kokuwaio/keycloak:26.5.1-debian
         - docker.io/kokuwaio/keycloak
         - docker.io/kokuwaio/keycloak:debian
-        - docker.io/kokuwaio/keycloak:26.5.0
-        - docker.io/kokuwaio/keycloak:26.5.0-debian
+        - docker.io/kokuwaio/keycloak:26.5.1
+        - docker.io/kokuwaio/keycloak:26.5.1-debian
         - ghcr.io/kokuwaio/keycloak
         - ghcr.io/kokuwaio/keycloak:debian
-        - ghcr.io/kokuwaio/keycloak:26.5.0
-        - ghcr.io/kokuwaio/keycloak:26.5.0-debian
+        - ghcr.io/kokuwaio/keycloak:26.5.1
+        - ghcr.io/kokuwaio/keycloak:26.5.1-debian
       target: debian
       platform: [linux/amd64, linux/arm64]
       auth:
@@ -45,7 +45,7 @@ steps:
         org.opencontainers.image.vendor: kokuwa.io
         org.opencontainers.image.licenses: EUPL-1.2
         org.opencontainers.image.ref.name: kokuwaio/keycloak
-        org.opencontainers.image.version: 26.5.0
+        org.opencontainers.image.version: 26.5.1
     when: [path: [.woodpecker/deploy.yaml, Dockerfile]]
 
   temurin:
@@ -54,11 +54,11 @@ steps:
       <<: *settings
       name:
         - registry.kokuwa.io/kokuwaio/keycloak:temurin
-        - registry.kokuwa.io/kokuwaio/keycloak:26.5.0-temurin
+        - registry.kokuwa.io/kokuwaio/keycloak:26.5.1-temurin
         - docker.io/kokuwaio/keycloak:temurin
-        - docker.io/kokuwaio/keycloak:26.5.0-temurin
+        - docker.io/kokuwaio/keycloak:26.5.1-temurin
         - ghcr.io/kokuwaio/keycloak:temurin
-        - ghcr.io/kokuwaio/keycloak:26.5.0-temurin
+        - ghcr.io/kokuwaio/keycloak:26.5.1-temurin
       target: temurin
 
   distroless:
@@ -67,11 +67,11 @@ steps:
       <<: *settings
       name:
         - registry.kokuwa.io/kokuwaio/keycloak:distroless
-        - registry.kokuwa.io/kokuwaio/keycloak:26.5.0-distroless
+        - registry.kokuwa.io/kokuwaio/keycloak:26.5.1-distroless
         - docker.io/kokuwaio/keycloak:distroless
-        - docker.io/kokuwaio/keycloak:26.5.0-distroless
+        - docker.io/kokuwaio/keycloak:26.5.1-distroless
         - ghcr.io/kokuwaio/keycloak:distroless
-        - ghcr.io/kokuwaio/keycloak:26.5.0-distroless
+        - ghcr.io/kokuwaio/keycloak:26.5.1-distroless
       target: distroless
       platform: [linux/amd64]
 

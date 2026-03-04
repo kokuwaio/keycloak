@@ -1,7 +1,7 @@
 # https://docs.k3s.io/installation/private-registry
 mirrors:
   docker.io:
-    endpoint: [http://mirror.woodpecker.svc.cluster.local]
+    endpoint: [https://mirror.kokuwa.io]
     rewrite: {"^(.*)$": docker.io/$1}
   "*":
     endpoint: []

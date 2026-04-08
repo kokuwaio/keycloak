@@ -4,4 +4,4 @@ mirrors:
     endpoint: [https://mirror.kokuwa.io]
     rewrite: {"^(.*)$": docker.io/$1}
   "*":
-    endpoint: []
+    endpoint: [https://mirror.kokuwa.io]

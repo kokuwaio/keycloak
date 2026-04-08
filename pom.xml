@@ -212,7 +212,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<imageTag>v1.33.3-k3s1</imageTag>
+					<imageTag>v1.35.3-k3s1</imageTag>
 					<manifests>${project.build.directory}/k3s</manifests>
 					<portBindings>
 						<portBinding>8080:8080</portBinding>

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import jakarta.ws.rs.NotAuthorizedException;
+import jakarta.ws.rs.BadRequestException;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -62,9 +62,9 @@ public class K3sIT {
 
 		// do some failed logins
 
-		assertThrows(NotAuthorizedException.class, () -> oidc.token("kokuwa", "admin", "nope"));
-		assertThrows(NotAuthorizedException.class, () -> oidc.token("kokuwa", "user", "password"));
-		assertThrows(NotAuthorizedException.class, () -> oidc.token("test", "horst", "nope"));
+		assertThrows(BadRequestException.class, () -> oidc.token("kokuwa", "admin", "nope"));
+		assertThrows(BadRequestException.class, () -> oidc.token("kokuwa", "user", "password"));
+		assertThrows(BadRequestException.class, () -> oidc.token("test", "horst", "nope"));
 
 		// check metrics count
 

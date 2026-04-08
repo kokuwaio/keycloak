@@ -73,7 +73,6 @@ steps:
         - ghcr.io/kokuwaio/keycloak:distroless
         - ghcr.io/kokuwaio/keycloak:26.6.0-distroless
       target: distroless
-      platform: [linux/amd64]
 
   dockerhub:
     image: kokuwaio/dockerhub-metadata

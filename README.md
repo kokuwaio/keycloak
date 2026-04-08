@@ -12,7 +12,7 @@
 - BaseImage:
   - [debian:stable-slim](https://hub.docker.com/_/debian) (amd64 & arm64)
   - [eclipse-temurin:17-jre](https://hub.docker.com/_/eclipse-temurin) (amd64 & arm64)
-  - [distroless/java17:nonroot](https://gcr.io/distroless/java17:nonroot) (amd64)
+  - [distroless/java17:nonroot](https://gcr.io/distroless/java17:nonroot) (amd64 & arm64)
 - preconfigured with PostgeSQL
 - preconfigured for Kubernetes:
   - health enabled

@@ -16,8 +16,8 @@ steps:
       - docker buildx create --use --name=buildkit --driver=remote --driver-opt=default-load=true $BUILDKIT_HOST
       - docker buildx build . --platform=amd64,arm64 --target=debian     --tag=kokuwaio/keycloak:dev-debian
       - docker buildx build . --platform=amd64,arm64 --target=temurin    --tag=kokuwaio/keycloak:dev-temurin
-      - docker buildx build . --platform=amd64       --target=distroless --tag=kokuwaio/keycloak:dev-distroless
-      - docker buildx build . --platform=amd64       --target=themes     --tag=kokuwaio/keycloak:dev-themes
+      - docker buildx build . --platform=amd64,arm64 --target=distroless --tag=kokuwaio/keycloak:dev-distroless
+      - docker buildx build . --platform=amd64,arm64 --target=themes     --tag=kokuwaio/keycloak:dev-themes
     environment:
       # because of .netrc cannot be written to /woodpecker
       HOME: /woodpecker/src/git.kokuwa.io/kokuwaio/keycloak

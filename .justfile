@@ -19,13 +19,10 @@
 
 # Build all variants
 @build-all:
-    docker buildx build . --target=debian     --platform=amd64
-    docker buildx build . --target=debian     --platform=arm64
-    docker buildx build . --target=temurin    --platform=amd64
-    docker buildx build . --target=temurin    --platform=arm64
-    docker buildx build . --target=distroless --platform=amd64
-    docker buildx build . --target=themes     --platform=amd64
-    docker buildx build . --target=themes     --platform=arm64
+    docker buildx build . --target=debian     --platform=amd64 --platform=arm64
+    docker buildx build . --target=temurin    --platform=amd64 --platform=arm64
+    docker buildx build . --target=distroless --platform=amd64 --platform=arm64
+    docker buildx build . --target=themes     --platform=amd64 --platform=arm64
 
 # Inspect image layers with `dive`.
 @dive TARGET="debian":

@@ -24,6 +24,7 @@ steps:
         - ghcr.io/kokuwaio/keycloak:26.7.0
         - ghcr.io/kokuwaio/keycloak:26.7.0-debian
       target: debian
+      source-date-epoch: $CI_COMMIT_TIMESTAMP
       platform: [linux/amd64, linux/arm64]
       auth:
         "https://index.docker.io/v1/":

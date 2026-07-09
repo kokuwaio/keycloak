@@ -5,7 +5,6 @@ when:
 services:
   - name: dockerd
     image: kokuwaio/dockerd:28.4.0
-    privileged: true
     ports: [2375, 6443, 8080]
 
 steps:

@@ -16,6 +16,7 @@ FROM build AS java
 SHELL ["/bin/bash", "-u", "-e", "-o", "pipefail", "-c"]
 ARG TARGETARCH
 ARG JAVA_VERSION=jdk-17.0.8+7
+# hadolint ignore=SC3010,SC3060
 RUN --mount=type=cache,target=/build,sharing=private \
 	--mount=type=cache,target=/root \
 	--mount=type=tmpfs,target=/tmp \

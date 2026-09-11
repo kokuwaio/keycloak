@@ -142,7 +142,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>tidy-maven-plugin</artifactId>
-					<version>1.4.0</version>
+					<version>1.4.1</version>
 				</plugin>
 				<plugin>
 					<groupId>net.revelc.code.formatter</groupId>

@@ -5,9 +5,9 @@ resources:
   - traefik
 
 images:
-  - name: druidfi/mailhog:<patched>
-    newTag: 1.0.1@sha256:90f36413627ee6d1b9d23ad8177df79671a5786836e6c77bf8560796011e440b
-  - name: traefik:<patched>
+  - name: docker.io/bonhams/mailhog:<patched>
+    newTag: 1.10.30@sha256:3f77b8d1c0a0009b4800e2bee3ca98a89298113b2594a34fed51b23063a5e677
+  - name: docker.io/library/traefik:<patched>
     newTag: v3.6.2@sha256:c025135278d10f0fb6e54cb2b2dbadb3c3f0381a2c508cd74c06a74cb5a0e828
-  - name: postgres:<patched>
+  - name: docker.io/library/postgres:<patched>
     newTag: 17.7@sha256:f337b026cb1fb954a93f2e33a62bf9ea7fffc1dafc1586c53b93922a8d6ee018

@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: mailhog
-          image: druidfi/mailhog:<patched>
+          image: docker.io/bonhams/mailhog:<patched>
           imagePullPolicy: IfNotPresent
           ports:
             - name: smtp

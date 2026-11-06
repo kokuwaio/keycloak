@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: traefik
-          image: traefik:<patched>
+          image: docker.io/library/traefik:<patched>
           imagePullPolicy: IfNotPresent
           args:
             - --providers.kubernetesingress=true

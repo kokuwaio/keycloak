@@ -286,7 +286,7 @@
 									<arguments>
 										<argument>build</argument>
 										<argument>${project.basedir}</argument>
-										<argument>--tag=kokuwaio/keycloak:dev-${docker.target}</argument>
+										<argument>--tag=docker.io/kokuwaio/keycloak:dev-${docker.target}</argument>
 										<argument>--target=${docker.target}</argument>
 										<argument>--quiet</argument>
 									</arguments>
@@ -301,7 +301,7 @@
 									<arguments>
 										<argument>build</argument>
 										<argument>${project.basedir}</argument>
-										<argument>--tag=kokuwaio/keycloak:dev-themes</argument>
+										<argument>--tag=docker.io/kokuwaio/keycloak:dev-themes</argument>
 										<argument>--target=themes</argument>
 										<argument>--quiet</argument>
 									</arguments>

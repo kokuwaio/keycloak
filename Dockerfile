@@ -95,7 +95,7 @@ USER 1000:1000
 ## Temurin
 ##
 
-FROM docker.io/eclipse-temurin:17.0.15_6-jre@sha256:e46d19ca8758322d37a4f26150d63e5038b5974ea999667bf698a92449cbb108 AS temurin
+FROM docker.io/library/eclipse-temurin:17.0.15_6-jre@sha256:e46d19ca8758322d37a4f26150d63e5038b5974ea999667bf698a92449cbb108 AS temurin
 COPY --link --from=keycloak-runtime /opt/keycloak /opt/keycloak
 ENV \
   KC_DB=postgres \

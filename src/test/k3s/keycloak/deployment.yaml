@@ -20,7 +20,7 @@ spec:
     spec:
       initContainers:
         - name: keycloak-themes
-          image: kokuwaio/keycloak:dev-themes
+          image: docker.io/kokuwaio/keycloak:dev-themes
           imagePullPolicy: Never
           securityContext:
             runAsNonRoot: true
@@ -33,7 +33,7 @@ spec:
             - name: themes
               mountPath: /opt/keycloak/themes
         - name: wait-for-postgres
-          image: postgres:<patched>
+          image: docker.io/library/postgres:<patched>
           imagePullPolicy: IfNotPresent
           command: [sh, -c, until echo "`date '+%T'` connect psql ..." && psql && echo "`date '+%T'` ... connected"; do sleep 1 ; done]
           env:
@@ -68,7 +68,7 @@ spec:
               drop: [ALL]
       containers:
         - name: keycloak
-          image: kokuwaio/keycloak:dev-${docker.target}
+          image: docker.io/kokuwaio/keycloak:dev-${docker.target}
           imagePullPolicy: Never
           args: [start, --optimized, --import-realm, --verbose]
           envFrom:

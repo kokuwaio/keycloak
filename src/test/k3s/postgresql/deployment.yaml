@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:<patched>
+          image: docker.io/library/postgres:<patched>
           imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:

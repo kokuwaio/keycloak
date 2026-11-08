@@ -115,7 +115,7 @@ USER 1000:1000
 ## Distroless
 ##
 
-FROM gcr.io/distroless/java17:nonroot@sha256:97c47f913d6cbdf67e657c139e8765510bfb87eb345e25e25745ae98f70dfcb3 AS distroless
+FROM gcr.io/distroless/java17:nonroot@sha256:a854d8286918eedbb5a7bc63b4a7fba18efa2926d31ec243a23fc3a70f4ce089 AS distroless
 COPY --link --from=keycloak-runtime /opt/keycloak /opt/keycloak
 ENV \
   KC_DB=postgres \
